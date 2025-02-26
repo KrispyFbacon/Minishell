@@ -6,7 +6,7 @@
 /*   By: frbranda <frbranda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 14:03:57 by frbranda          #+#    #+#             */
-/*   Updated: 2025/02/25 17:58:04 by frbranda         ###   ########.fr       */
+/*   Updated: 2025/02/26 17:20:58 by frbranda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	free_token_list(t_token_tree **token)
 	{
 		while (*token != NULL)
 		{
+			free_tokens(&(*token)->token_list);
 			if ((*token)->left)
 				free_token_list(&(*token)->left);
 			free((*token)->token_list);

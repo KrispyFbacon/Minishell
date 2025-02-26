@@ -6,7 +6,7 @@
 /*   By: frbranda <frbranda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 14:48:27 by frbranda          #+#    #+#             */
-/*   Updated: 2025/02/26 14:30:36 by frbranda         ###   ########.fr       */
+/*   Updated: 2025/02/25 18:02:37 by frbranda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_token_tree	*add_last_node(t_token_tree **token, t_token_tree *new)
 	return (*token);
 }
 
-/* // finds pipe and returns it's position if it doesn't find return NULL
+// finds pipe and returns it's position if it doesn't find return NULL
 t_token_tree	*find_last_pipe(t_token_tree *token)
 {
 	t_token_tree	*temp;
@@ -93,4 +93,4 @@ t_token_tree	*add_pipe_to_node(t_token_tree **token, t_token_tree *new)
 		}
 	}
 	return (new);
-} */
+}

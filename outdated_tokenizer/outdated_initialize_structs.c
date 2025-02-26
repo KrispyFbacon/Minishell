@@ -6,13 +6,13 @@
 /*   By: frbranda <frbranda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 13:48:28 by frbranda          #+#    #+#             */
-/*   Updated: 2025/02/26 14:25:20 by frbranda         ###   ########.fr       */
+/*   Updated: 2025/02/26 13:05:25 by frbranda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token	*initialize_token(char *s, int type)
+t_token	*initialize_tokens(char *s)
 {
 	t_token	*new;
 
@@ -20,21 +20,22 @@ t_token	*initialize_token(char *s, int type)
 	if (!new)
 		return (NULL);
 	new->token = ft_strdup(s);
-	new->type = type;
+	new->type = ARG;
 	new->state = GENERAL;
 	new->next = NULL;
 	return (new);
 }
 
 // inicialize token_list (binary_tree)
-t_token_tree	*initialize_token_list(t_token *token, int type)
+t_token_tree	*initialize_token_list(char *s, int type)
 {
 	t_token_tree	*new;
 
 	new = (t_token_tree *)ft_calloc(1, sizeof(t_token_tree));
 	if (!new)
 		return (NULL);
-	new->token_list = token;
+	//new->token_list = ft_strdup(s);
+	new->token_list = NULL;
 	new->type = type;
 	new->left = NULL;
 	new->right = NULL;

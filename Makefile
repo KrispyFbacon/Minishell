@@ -6,7 +6,7 @@
 #    By: frbranda <frbranda@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/10 15:04:25 by frbranda          #+#    #+#              #
-#    Updated: 2025/02/25 14:15:49 by frbranda         ###   ########.fr        #
+#    Updated: 2025/02/26 14:12:09 by frbranda         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ RM = rm -rf
 VAL = valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --track-origins=yes --errors-for-leak-kinds=definite
 
 GENERAL = main.c
-PARSING = quote_handler.c tokenizer.c token_list_tools.c initialize_structs.c
+PARSING = quote_handler.c tokenizer.c initialize_structs.c token_list_tools.c token_tools.c
 FREE = free.c free_shell.c
 PRINT = print_token.c print_token_list.c
 

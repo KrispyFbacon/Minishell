@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_shell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frbranda <frbranda@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 14:03:57 by frbranda          #+#    #+#             */
-/*   Updated: 2025/02/26 17:20:58 by frbranda         ###   ########.fr       */
+/*   Updated: 2025/03/05 17:29:57 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,32 +24,23 @@ void	free_tokens(t_token **token)
 		free(*token);
 		*token = temp;
 	}
+	(*token) = NULL;
 }
 
 // FREE of the token list (binary tree)
-void	free_token_list(t_token_tree **token)
+void	free_token_list(t_token_tree **token_list)
 {
-	t_token_tree	*temp;
-
-	if ((*token))
-	{
-		while (*token != NULL)
-		{
-			free_tokens(&(*token)->token_list);
-			if ((*token)->left)
-				free_token_list(&(*token)->left);
-			free((*token)->token_list);
-			temp = (*token)->right;
-			free(*token);
-			*token = temp;
-		}
-	}
+	if ((*token_list)->token_list)
+		free_tokens(&(*token_list)->token_list);
+	free(*token_list);
+	(*token_list) = NULL;
 }
 
 // free main struct (shell)
 void	free_shell(t_shell	**shell)
 {
-	free_token_list(&(*shell)->token_tree);
+	if ((*shell)->token_tree)
+		free_token_list(&(*shell)->token_tree);
 	if ((*shell)->env_var)
 		free((*shell)->env_var);
 	free((*shell));

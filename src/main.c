@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: frbranda <frbranda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:04:38 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/05 17:23:34 by yes              ###   ########.fr       */
+/*   Updated: 2025/03/06 14:04:30 by frbranda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	main(void)
 		}
 		tokenizer(&shell, input);
 		add_history(input);
-		free_token_list(&shell->token_tree);
+		free_tokens(&shell->token_list);
 		free(input);
 	}
 	free_shell(&shell);

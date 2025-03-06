@@ -3,16 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: frbranda <frbranda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:12:25 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/05 19:13:38 by yes              ###   ########.fr       */
+/*   Updated: 2025/03/06 16:57:31 by frbranda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// var len handle but it will be changed later on when env var will be handled
+
+// when find other than spaces checks for quotes
+void	token_add(t_token **token, char *input, int *i)
+{
+	t_token	*new_token;
+	char	*s;
+
+	s = new_string(input, i, GENERAL);
+	if(!s)
+		return ;
+	new_token = initialize_token(s, EXEC);
+	add_last_token(token, new_token);
+	free(s);
+}
+
+void	token_split(t_token **token_list, char *input)
+{
+	int		i;
+
+	i = 0;
+	while(input[i])
+	{
+		while (input[i] && input[i] == ' ')
+			i++;
+		if (!input[i])
+			break ;
+		else
+			token_add(token_list, input, &i);
+		if (input[i])
+			i++;
+	}
+}
+
+void	tokenizer(t_shell **shell, char *input)
+{
+	t_token	*token_list;
+
+	token_list = NULL;
+	token_split(&token_list, input);
+	print_tokens(token_list);
+	(*shell)->token_list = token_list;
+}
+
+/* // var len handle but it will be changed later on when env var will be handled
+int	var_len(char *input,int *i)
 {
 	int		len;
 	
@@ -89,54 +133,4 @@ char	*new_string(char *input, int *i, int mode)
 	if (mode == SINGLE_QUO || mode == DOUBLE_QUO)
 		(*i)++;
 	return (new_s);
-}
-// when find other than spaces checks for quotes
-void	token_add(t_token **token, char *input, int *i)
-{
-	t_token	*new_token;
-	char	*s;
-	
-	
-	if(input[*i] == '\"')
-		s = new_string(input, i, DOUBLE_QUO);
-	else if(input[*i] == '\'')
-		s = new_string(input, i, SINGLE_QUO);
-	else
-		s = new_string(input, i, GENERAL);
-	if(!s)
-		return ;
-	new_token = initialize_token(s, ARG);
-	add_last_token(token, new_token);
-	free(s);
-}
-
-void	token_split(t_token_tree **token_list, char *input)
-{
-	t_token	*token;
-	int		i;
-	
-	i = 0;
-	token = NULL;
-	while(input[i])
-	{
-		while (input[i] && input[i] == ' ')
-			i++;
-		if (!input[i])
-			break ;
-		else
-			token_add(&token, input, &i);
-		if (input[i])
-			i++;
-	}
-	(*token_list)->token_list = token;
-}
-
-void	tokenizer(t_shell **shell, char *input)
-{
-	t_token_tree	*token_list;
-
-	token_list = initialize_token_list();
-	token_split(&token_list, input);
-	print_token_list(token_list);
-	(*shell)->token_tree = token_list;
-}
+} */

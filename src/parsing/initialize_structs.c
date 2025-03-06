@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize_structs.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: frbranda <frbranda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 13:48:28 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/05 17:13:22 by yes              ###   ########.fr       */
+/*   Updated: 2025/03/06 13:54:59 by frbranda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,6 @@ t_token	*initialize_token(char *s, int type)
 	return (new);
 }
 
-// inicialize token_list (binary_tree)
-t_token_tree	*initialize_token_list(void)
-{
-	t_token_tree	*new;
-
-	new = (t_token_tree *)ft_calloc(1, sizeof(t_token_tree));
-	if (!new)
-		return (NULL);
-	new->token_list = NULL;
-	new->type = ARG;
-	new->left = NULL;
-	new->right = NULL;
-	return (new);
-}
-
 // inicialize shell
 t_shell	*initialize_shell(void)
 {
@@ -49,7 +34,7 @@ t_shell	*initialize_shell(void)
 	new = (t_shell *)ft_calloc(1, sizeof(t_shell));
 	if (!new)
 		return (NULL);
-	new->token_tree = NULL;
+	new->token_list = NULL;
 	new->env_var = NULL;
 	new->exit_status = 0;
 	return (new);

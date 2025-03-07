@@ -6,7 +6,7 @@
 /*   By: frbranda <frbranda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:12:31 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/06 18:10:24 by frbranda         ###   ########.fr       */
+/*   Updated: 2025/03/07 13:30:43 by frbranda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,11 @@
 /*=============================================================================#
 #                               DEFINES                                        #
 #=============================================================================*/
+
+//
+# define WHITE_SPACES " \t\r\n\v"
+# define SYMBOLS "|"
+# define S_REDIR "<>+-_"
 
 // error handler
 # define INVALID -1
@@ -64,25 +69,28 @@ typedef struct s_env
 typedef struct s_token
 {
 	char			*token;
-	int				type;	// EXEC/CMD/PIPE/REDIR
-	int				state;
+	int				type;	//EXEC/CMD/PIPE/REDIR
 	struct s_token	*next;
 }	t_token;
-//	t_redir			*redir;
 
-struct	s_pipe
+typedef struct s_cmd
+{
+	int	type;
+}	t_cmd;
+
+typedef struct	s_pipe
 {
 	int		type;
 	void	*left;
 	void	*right;
 }	t_pipe;
 
-struct	s_redir
+typedef struct	s_redir
 {
 	int				type;
 	char			*redir;
 	struct s_redir	*next;
-}	t_pipe;
+}	t_redir;
 
 typedef struct s_shell
 {

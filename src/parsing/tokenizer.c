@@ -6,7 +6,7 @@
 /*   By: frbranda <frbranda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:12:25 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/06 16:57:31 by frbranda         ###   ########.fr       */
+/*   Updated: 2025/03/07 13:24:04 by frbranda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	tokenizer(t_shell **shell, char *input)
 	(*shell)->token_list = token_list;
 }
 
-/* // var len handle but it will be changed later on when env var will be handled
+// var len handle but it will be changed later on when env var will be handled
 int	var_len(char *input,int *i)
 {
 	int		len;
@@ -133,4 +133,4 @@ char	*new_string(char *input, int *i, int mode)
 	if (mode == SINGLE_QUO || mode == DOUBLE_QUO)
 		(*i)++;
 	return (new_s);
-} */
+}

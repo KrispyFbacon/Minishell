@@ -6,7 +6,7 @@
 /*   By: frbranda <frbranda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 13:48:28 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/06 13:54:59 by frbranda         ###   ########.fr       */
+/*   Updated: 2025/03/10 12:27:30 by frbranda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ t_token	*initialize_token(char *s, int type)
 		return (NULL);
 	new->token = ft_strdup(s);
 	new->type = type;
-	new->state = GENERAL;
 	new->next = NULL;
 	return (new);
 }

@@ -6,7 +6,7 @@
 /*   By: frbranda <frbranda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:12:31 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/07 13:30:43 by frbranda         ###   ########.fr       */
+/*   Updated: 2025/03/10 19:08:12 by frbranda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,8 @@
 #=============================================================================*/
 
 //
-# define WHITE_SPACES " \t\r\n\v"
-# define SYMBOLS "|"
-# define S_REDIR "<>+-_"
+# define WHITE_SPACES " \t\r\n\v\f"
+# define S_REDIR "<>|"
 
 // error handler
 # define INVALID -1
@@ -42,8 +41,8 @@
 # define EXEC 0
 # define CMD 1
 # define PIPE 2
-# define REDIR_RIGHT 4// > redir onto a file and chage its contente
-# define REDIR_LEFT 5// <
+# define REDIR_IN 4// > redir onto a file and chage its contente
+# define REDIR_OUT 5// <
 # define APPEND 6// >> redir onto a file and add content
 # define HEREDOC 7// <<
 
@@ -51,7 +50,7 @@
 # define TRUE 1
 
 // Quote handle
-# define GENERAL 0	//change to NORMAL?
+# define GENERAL 0	
 # define SINGLE_QUO 1
 # define DOUBLE_QUO 2
 
@@ -73,24 +72,35 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
-typedef struct s_cmd
+/*typedef enum Redir {
+	INPUT,
+	OUTPUT
+}	Redir_e;*/
+
+typedef struct s_node
 {
 	int	type;
-}	t_cmd;
+}	t_node;
 
 typedef struct	s_pipe
 {
 	int		type;
-	void	*left;
-	void	*right;
+	t_node	*left;
+	t_node	*right;
 }	t_pipe;
 
 typedef struct	s_redir
 {
-	int				type;
 	char			*redir;
 	struct s_redir	*next;
 }	t_redir;
+
+typedef struct s_cmd
+{
+	int		type;
+	char	**args;
+	t_redir	*redirs; 
+} t_cmd;
 
 typedef struct s_shell
 {
@@ -98,6 +108,12 @@ typedef struct s_shell
 	t_env			*env_var;
 	int				exit_status;
 }	t_shell;
+
+typedef struct s_stupid
+{
+	int start;
+	int type;
+}	t_stupid;
 
 /*=============================================================================#
 #                               GENERAL                                        #
@@ -108,16 +124,20 @@ typedef struct s_shell
 ///////////////////////////////
 
 // tokenizer.c
-int				var_len(char *input, int *i);
-int				get_len(char *input,int *i,int mode);
-char			*new_string(char *input, int *i, int mode);
-void			token_add(t_token **token, char *input, int *i);
 void			token_split(t_token **token_list, char *input);
 void			tokenizer(t_shell **shell, char *input);
 
 // token_tools.c
 t_token			*find_last_token(t_token *token);
 t_token			*add_last_token(t_token **token, t_token *new);
+int				get_token_type(char *input, int i);
+
+// token_handler.c
+void			handle_quotes(char *input, int i, int *mode);
+void			add_token_word(t_token **token_list, char *input, int start, int i);
+void			add_token(t_token **token_list, char *input, int i, t_stupid *info);
+void			handle_token_redir(t_token **token_list, char *input, int *i);
+void			handle_token_pipe(t_token **token_list, char *input, int *i);
 
 // initialize_structs.c
 t_token			*initialize_token(char *s, int type);

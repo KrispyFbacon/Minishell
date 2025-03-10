@@ -6,7 +6,7 @@
 /*   By: frbranda <frbranda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 14:10:37 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/06 13:58:39 by frbranda         ###   ########.fr       */
+/*   Updated: 2025/03/10 19:10:04 by frbranda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,25 @@ t_token	*add_last_token(t_token **token, t_token *new)
 		last->next = new;
 	}
 	return (*token);
+}
+
+int	get_token_type(char *input, int i)
+{
+	int	type;
+
+	type = 0;
+	if (ft_strchr(S_REDIR, input[i]) && input[i] != '|')
+	{
+		if (input[i] == '>' && input[i + 1] != '>')
+			type = REDIR_OUT;
+		else if (input[i] == '<' && input[i + 1] != '<')
+			type = REDIR_IN;
+		else if (input[i] == '>' && input[i + 1] == '>')
+			type = APPEND;
+		else if (input[i] == '<' && input[i + 1] == '<')
+			type = HEREDOC;
+	}
+	return (type);
 }
 
 /* // finds pipe and returns it's position if it doesn't find return NULL

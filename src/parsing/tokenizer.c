@@ -6,42 +6,37 @@
 /*   By: frbranda <frbranda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:12:25 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/07 13:24:04 by frbranda         ###   ########.fr       */
+/*   Updated: 2025/03/10 19:30:56 by frbranda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-// when find other than spaces checks for quotes
-void	token_add(t_token **token, char *input, int *i)
-{
-	t_token	*new_token;
-	char	*s;
-
-	s = new_string(input, i, GENERAL);
-	if(!s)
-		return ;
-	new_token = initialize_token(s, EXEC);
-	add_last_token(token, new_token);
-	free(s);
-}
-
 void	token_split(t_token **token_list, char *input)
 {
 	int		i;
+	int		start;
+	int		mode;
 
 	i = 0;
-	while(input[i])
+	while (input[i])
 	{
-		while (input[i] && input[i] == ' ')
+		while (input[i] && ft_strchr(WHITE_SPACES, input[i]))
 			i++;
-		if (!input[i])
-			break ;
-		else
-			token_add(token_list, input, &i);
-		if (input[i])
+		mode = GENERAL;
+		start = i;
+		while (input[i]
+				&& (mode == GENERAL || !(ft_strchr(WHITE_SPACES, input[i]))))
+		{
+			if (mode == GENERAL && ft_strchr(S_REDIR, input[i]))
+				break;
+			handle_quotes(input, i, &mode); 
 			i++;
+		}
+		if (i > start)
+			add_token_word(token_list, input, start, i);
+		handle_token_redir(token_list, input, &i);
+		handle_token_pipe(token_list, input, &i);
 	}
 }
 
@@ -55,7 +50,7 @@ void	tokenizer(t_shell **shell, char *input)
 	(*shell)->token_list = token_list;
 }
 
-// var len handle but it will be changed later on when env var will be handled
+/* // var len handle but it will be changed later on when env var will be handled
 int	var_len(char *input,int *i)
 {
 	int		len;
@@ -134,3 +129,34 @@ char	*new_string(char *input, int *i, int mode)
 		(*i)++;
 	return (new_s);
 }
+// when find other than spaces checks for quotes
+void	token_add(t_token **token, char *input, int *i)
+{
+	t_token	*new_token;
+	char	*s;
+
+	s = new_string(input, i, GENERAL);
+	if(!s)
+		return ;
+	new_token = initialize_token(s, EXEC);
+	add_last_token(token, new_token);
+	free(s);
+}
+
+void	token_split(t_token **token_list, char *input)
+{
+	int		i;
+
+	i = 0;
+	while(input[i])
+	{
+		while (input[i] && input[i] == ' ')
+			i++;
+		if (!input[i])
+			break ;
+		else
+			token_add(token_list, input, &i);
+		if (input[i])
+			i++;
+	}
+} */

@@ -6,25 +6,42 @@
 /*   By: frbranda <frbranda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 14:08:49 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/06 14:10:41 by frbranda         ###   ########.fr       */
+/*   Updated: 2025/03/10 19:24:56 by frbranda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	print_token_type(t_token *token)
+{
+	if (token->type == CMD)
+		ft_printf("Type : CMD\n");
+	else if (token->type == PIPE)
+		ft_printf("Type : PIPE\n");
+	else if (token->type == REDIR_OUT)
+		ft_printf("Type : REDIR_OUT\n");
+	else if (token->type == REDIR_IN)
+		ft_printf("Type : REDIR_IN\n");
+	else if (token->type == APPEND)
+		ft_printf("Type : APPEND\n");
+	else if (token->type == HEREDOC)
+		ft_printf("Type : HEREDOC\n");
+	else
+		ft_printf("Type : NULL\n");
+}
 
 void	print_tokens(t_token *token)
 {
 	t_token	*temp;
 
 	temp = token;
+	if (!token)
+		return;
 	ft_printf("-----------------\n");
 	while (temp)
 	{
 		ft_printf("Token: {%s}\n", temp->token);
-		if (temp->type == PIPE)
-			ft_printf("Type : PIPE\n");
-		else
-			ft_printf("Type : EXEC\n");
+		print_token_type(token);
 		if (temp->next == NULL)
 			ft_printf("next: %s\n", temp->next);
 		else

@@ -6,7 +6,7 @@
 /*   By: frbranda <frbranda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:04:38 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/06 14:04:30 by frbranda         ###   ########.fr       */
+/*   Updated: 2025/03/10 19:08:46 by frbranda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,3 +53,29 @@ int	main(void)
 
 // Do different "whiles(1)" for main/cat/here_doc also 
 // signals are different(ctrl + /) ??? */
+
+/* // Fuction that helps construct the binary tree based on tokenizer input
+t_node	*return_node(tokenptr)
+{
+	t_node	*node = (t_node *)cmd(&tokenptr);
+	if *tokenptr == pipe	
+		return ((t_node *)pipe(node, return_node(tokenptr++)));
+	return (node);
+}
+
+// exec commands after binary tree is created
+exec(node)
+{
+	if node.type = pipe
+	{
+		t_pipe	*pipe = (t_pipe *)node;
+		exec(pipe->left);
+		exec(pipe->right);
+		return;
+	}
+	else if (node->tyoe == cmd)
+	{
+		t_cmd	*cmd = (t_cmd*)node;
+		executeCMD(cmd);
+	}
+} */

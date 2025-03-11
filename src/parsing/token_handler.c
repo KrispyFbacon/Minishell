@@ -6,13 +6,13 @@
 /*   By: frbranda <frbranda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 19:01:28 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/11 12:42:55 by frbranda         ###   ########.fr       */
+/*   Updated: 2025/03/11 16:18:03 by frbranda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handle_quotes(char *input, int *i, int *start, int *mode)
+/* void	handle_quotes(char *input, int *i, int *start, int *mode)
 {
 	char	quote;
 	
@@ -121,4 +121,4 @@ void	handle_token_pipe(t_token **token_list, char *input, int *i)
 		add_token(token_list, input, *i + 1, &info);
 		(*i)++;
 	}
-}
+} */

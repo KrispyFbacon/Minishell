@@ -6,7 +6,7 @@
 /*   By: frbranda <frbranda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 14:08:49 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/10 19:24:56 by frbranda         ###   ########.fr       */
+/*   Updated: 2025/03/11 18:49:59 by frbranda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	print_tokens(t_token *token)
 	while (temp)
 	{
 		ft_printf("Token: {%s}\n", temp->token);
-		print_token_type(token);
+		print_token_type(temp);
 		if (temp->next == NULL)
 			ft_printf("next: %s\n", temp->next);
 		else

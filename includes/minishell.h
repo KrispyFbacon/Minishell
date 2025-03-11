@@ -6,7 +6,7 @@
 /*   By: frbranda <frbranda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:12:31 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/11 12:43:26 by frbranda         ###   ########.fr       */
+/*   Updated: 2025/03/11 18:20:06 by frbranda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@
 
 //
 # define WHITE_SPACES " \t\r\n\v\f"
-# define S_REDIR "<>|"
+# define OPERATOR "<>|"
+# define T_REDIR "<>"
+# define T_PIPE "|"
+# define QUOTES "\"\'"
 
 // error handler
 # define INVALID -1
@@ -41,8 +44,8 @@
 # define EXEC 0
 # define CMD 1
 # define PIPE 2
-# define REDIR_IN 4// > redir onto a file and chage its contente
-# define REDIR_OUT 5// <
+# define REDIR_IN 4// < redir onto a file and chage its contente
+# define REDIR_OUT 5// >
 # define APPEND 6// >> redir onto a file and add content
 # define HEREDOC 7// <<
 
@@ -109,11 +112,12 @@ typedef struct s_shell
 	int				exit_status;
 }	t_shell;
 
-typedef struct s_stupid
+typedef struct s_info
 {
 	int start;
 	int type;
-}	t_stupid;
+	int mode;
+}	t_info;
 
 /*=============================================================================#
 #                               GENERAL                                        #
@@ -124,7 +128,13 @@ typedef struct s_stupid
 ///////////////////////////////
 
 // tokenizer.c
-void	token_split(t_token **token_list, char *input);
+void	token_quote_changer(char *input, int i, t_info *info);
+void	token_end_of_word(char *input, int *i, t_info *info);
+void	add_token(t_token **token_list, char *input, int i, t_info *info);
+void	token_word_handler(t_token **token_list, char *input, int *i, int type);
+void	token_redir_handler(t_token **token_list, char *input, int *i);
+void	token_pipe_handler(t_token **token_list, char *input, int *i);
+void	token_space_handler(t_token **token_list, char *input);
 void	tokenizer(t_shell **shell, char *input);
 
 // token_tools.c
@@ -133,11 +143,11 @@ t_token	*add_last_token(t_token **token, t_token *new);
 int		get_token_type(char *input, int i);
 
 // token_handler.c
-void	handle_quotes(char *input, int *i, int *start, int *mode);
+/* void	handle_quotes(char *input, int *i, int *start, int *mode);
 void	add_token_word(t_token **token_list, char *input, int start, int i);
 void	add_token(t_token **token_list, char *input, int i, t_stupid *info);
 void	handle_token_redir(t_token **token_list, char *input, int *i);
-void	handle_token_pipe(t_token **token_list, char *input, int *i);
+void	handle_token_pipe(t_token **token_list, char *input, int *i); */
 
 // initialize_structs.c
 t_token	*initialize_token(char *s, int type);

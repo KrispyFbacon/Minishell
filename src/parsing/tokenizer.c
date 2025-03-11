@@ -6,13 +6,13 @@
 /*   By: frbranda <frbranda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:12:25 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/11 12:39:47 by frbranda         ###   ########.fr       */
+/*   Updated: 2025/03/11 19:36:10 by frbranda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	token_split(t_token **token_list, char *input)
+/* void	token_split(t_token **token_list, char *input)
 {
 	int		i;
 	int		start;
@@ -40,14 +40,149 @@ void	token_split(t_token **token_list, char *input)
 		handle_token_redir(token_list, input, &i);
 		handle_token_pipe(token_list, input, &i);
 	}
+} */
+void	token_quote_changer(char *input, int i, t_info *info)
+{
+	if (input[i] == '\'')
+	{
+		if (info->mode == GENERAL)
+			info->mode = SINGLE_QUO;
+		else if (info->mode == SINGLE_QUO)
+			info->mode = GENERAL;
+	}
+	if (input[i] == '\"')
+	{
+		if (info->mode == GENERAL)
+			info->mode = DOUBLE_QUO;
+		else if (info->mode == DOUBLE_QUO)
+			info->mode = GENERAL;
+	}
 }
+
+void	add_token(t_token **token_list, char *input, int i, t_info *info)
+{
+	t_token	*new_token;
+	char	*s;
+	int	len;
+	int	j;
+
+	len = i - info->start;
+	s = (char *)ft_calloc((len + 1), sizeof(char));
+	if (!s)
+		return ;
+	j = 0;
+	while (info->start < i)
+	{
+		s[j] = input [info->start];
+		info->start++;
+		j++;
+	}
+	s[j] = '\0';
+	new_token = initialize_token(s, info->type);
+	add_last_token(token_list, new_token);
+	free (s);
+}
+
+void	token_end_of_word(char *input, int *i, t_info *info)
+{
+	char quote;
+	
+	if (info->mode != GENERAL)
+	{
+		quote = input[*i];
+		(*i)++;
+		while (input[*i] && input[*i] != quote)
+			(*i)++;
+	}
+	else
+	{
+		while (input[*i] && (ft_strchr(WHITE_SPACES, input[*i])))
+			(*i)++;
+	}
+}
+
+void	token_word_handler(t_token **token_list, char *input, int *i, int type)
+{
+	t_info info;
+
+	info.type = type;
+	while (input[*i] && ft_strchr(WHITE_SPACES, input[*i]))
+			(*i)++;
+	info.mode = GENERAL;
+	info.start = *i;
+	while (input[*i])
+	{
+		if(ft_strchr(QUOTES, input[*i]))
+			token_quote_changer(input, *i, &info);
+		if (info.mode == GENERAL && ft_strchr(WHITE_SPACES, input[*i]))
+			break ;
+		token_end_of_word(input, i, &info);
+		if (info.mode == GENERAL && ft_strchr(OPERATOR, input[*i]))
+			break ;
+		if (input[*i])
+			(*i)++;
+	}
+	add_token(token_list, input, *i, &info);
+}
+
+/* ft_printf("DOING A LOOP\n");
+	ft_printf("input[i]: %c\n", input[*i]);
+	ft_printf("i       : %i\n", *i);
+	ft_printf("start   : %i\n", info.start);
+	ft_printf("mode    : %i\n", info.mode);
+	ft_printf("------------\n"); */
+
+void	token_redir_handler(t_token **token_list, char *input, int *i)
+{
+	int	type;
+	
+	type = get_token_type(input, *i);
+	if (type == 0)
+		return ;
+	if (type == REDIR_OUT || type == REDIR_IN)
+		(*i)++;
+	else if (type == APPEND || type == HEREDOC)
+		*i = *i + 2;
+	token_word_handler(token_list, input, i, type);
+}
+
+void	token_pipe_handler(t_token **token_list, char *input, int *i)
+{
+	t_token *new_token;
+	
+	if (input[*i] == '|')
+	{
+		new_token = initialize_token("|", PIPE);
+		add_last_token(token_list, new_token);
+		(*i)++;
+	}
+}
+
+void	token_space_handler(t_token **token_list, char *input)
+{
+	int	i;
+
+	i = 0;
+	while (input[i])
+	{
+		while (input[i] && ft_strchr(WHITE_SPACES, input[i]))
+			i++;
+		if (input[i] && ft_strchr(T_PIPE, input[i]))
+			token_pipe_handler(token_list, input, &i);
+		else if (input[i] && ft_strchr(T_REDIR, input[i]))
+			token_redir_handler(token_list, input, &i);
+		else
+			token_word_handler(token_list, input, &i, CMD);
+	}
+}
+
 
 void	tokenizer(t_shell **shell, char *input)
 {
 	t_token	*token_list;
 
 	token_list = NULL;
-	token_split(&token_list, input);
+	token_space_handler(&token_list, input);
 	print_tokens(token_list);
 	(*shell)->token_list = token_list;
 }

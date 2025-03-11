@@ -6,7 +6,7 @@
 /*   By: frbranda <frbranda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 14:10:37 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/10 19:10:04 by frbranda         ###   ########.fr       */
+/*   Updated: 2025/03/11 13:49:00 by frbranda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	get_token_type(char *input, int i)
 	int	type;
 
 	type = 0;
-	if (ft_strchr(S_REDIR, input[i]) && input[i] != '|')
+	if (ft_strchr(T_REDIR, input[i]))
 	{
 		if (input[i] == '>' && input[i + 1] != '>')
 			type = REDIR_OUT;

@@ -6,7 +6,7 @@
 /*   By: frbranda <frbranda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:12:31 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/10 19:08:12 by frbranda         ###   ########.fr       */
+/*   Updated: 2025/03/11 12:43:26 by frbranda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,35 +124,35 @@ typedef struct s_stupid
 ///////////////////////////////
 
 // tokenizer.c
-void			token_split(t_token **token_list, char *input);
-void			tokenizer(t_shell **shell, char *input);
+void	token_split(t_token **token_list, char *input);
+void	tokenizer(t_shell **shell, char *input);
 
 // token_tools.c
-t_token			*find_last_token(t_token *token);
-t_token			*add_last_token(t_token **token, t_token *new);
-int				get_token_type(char *input, int i);
+t_token	*find_last_token(t_token *token);
+t_token	*add_last_token(t_token **token, t_token *new);
+int		get_token_type(char *input, int i);
 
 // token_handler.c
-void			handle_quotes(char *input, int i, int *mode);
-void			add_token_word(t_token **token_list, char *input, int start, int i);
-void			add_token(t_token **token_list, char *input, int i, t_stupid *info);
-void			handle_token_redir(t_token **token_list, char *input, int *i);
-void			handle_token_pipe(t_token **token_list, char *input, int *i);
+void	handle_quotes(char *input, int *i, int *start, int *mode);
+void	add_token_word(t_token **token_list, char *input, int start, int i);
+void	add_token(t_token **token_list, char *input, int i, t_stupid *info);
+void	handle_token_redir(t_token **token_list, char *input, int *i);
+void	handle_token_pipe(t_token **token_list, char *input, int *i);
 
 // initialize_structs.c
-t_token			*initialize_token(char *s, int type);
-t_shell			*initialize_shell(void);
+t_token	*initialize_token(char *s, int type);
+t_shell	*initialize_shell(void);
 
 ///////////////////////////////
 //           FREE            //
 ///////////////////////////////
 
 // free_shell.c
-void			free_tokens(t_token **token);
-void			free_shell(t_shell	**shell);
+void	free_tokens(t_token **token);
+void	free_shell(t_shell	**shell);
 
 // free.c
-void			free_char_pp(char **s);
+void	free_char_pp(char **s);
 
 ///////////////////////////////
 //           PRINT           //
@@ -161,7 +161,7 @@ void			free_char_pp(char **s);
 // print_shell.c?
 
 // print_token.c
-void			print_tokens(t_token *token);
-void			print_tokens_simple(t_token *token);
+void		print_tokens(t_token *token);
+void		print_tokens_simple(t_token *token);
 
 #endif

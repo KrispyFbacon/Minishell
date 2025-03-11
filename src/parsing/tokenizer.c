@@ -6,7 +6,7 @@
 /*   By: frbranda <frbranda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:12:25 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/10 19:30:56 by frbranda         ###   ########.fr       */
+/*   Updated: 2025/03/11 12:39:47 by frbranda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,9 @@ void	token_split(t_token **token_list, char *input)
 		{
 			if (mode == GENERAL && ft_strchr(S_REDIR, input[i]))
 				break;
-			handle_quotes(input, i, &mode); 
+			handle_quotes(input, &i, &start, &mode);
+			if (input[i] && mode == GENERAL && ft_strchr(WHITE_SPACES, input[i]))
+				break;
 			i++;
 		}
 		if (i > start)

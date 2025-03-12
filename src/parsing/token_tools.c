@@ -6,7 +6,7 @@
 /*   By: frbranda <frbranda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 14:10:37 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/11 13:49:00 by frbranda         ###   ########.fr       */
+/*   Updated: 2025/03/12 17:15:23 by frbranda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ t_token	*find_last_token(t_token *token)
 	{
 		temp = temp->next;
 	}
-	return(temp);
+	return (temp);
 }
 
 t_token	*add_last_token(t_token **token, t_token *new)
 {
-	t_token *last;
+	t_token	*last;
 
 	if (!new)
 		return (NULL);

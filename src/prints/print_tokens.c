@@ -6,7 +6,7 @@
 /*   By: frbranda <frbranda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 14:08:49 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/11 18:49:59 by frbranda         ###   ########.fr       */
+/*   Updated: 2025/03/12 17:19:11 by frbranda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	print_tokens(t_token *token)
 
 	temp = token;
 	if (!token)
-		return;
+		return ;
 	ft_printf("-----------------\n");
 	while (temp)
 	{

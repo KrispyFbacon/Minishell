@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frbranda <frbranda@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:12:31 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/12 17:22:34 by frbranda         ###   ########.fr       */
+/*   Updated: 2025/03/18 17:36:02 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@
 # define UNKNOWN_COMMAND 127
 
 // token type
-# define EXEC 0
-# define CMD 1
+# define CMD 0
+# define ARG 1
 # define PIPE 2
 # define REDIR_IN 4// < redir onto a file and chage its contente
 # define REDIR_OUT 5// >
@@ -109,6 +109,7 @@ typedef struct s_cmd
 typedef struct s_shell
 {
 	t_token	*token_list;
+	t_token	*head;
 	t_env	*env_var;
 	int		exit_status;
 }	t_shell;
@@ -116,6 +117,8 @@ typedef struct s_shell
 typedef struct s_info
 {
 	int	start;
+	int	env_start;
+	int	env_end;
 	int	type;
 	int	mode;
 }	t_info;
@@ -132,9 +135,10 @@ typedef struct s_info
 void	tokenizer(t_shell **shell, char *input);
 
 // token_space_split.c
-void	token_word_handler(t_token **token_list, char *input, int *i, int type);
+int		get_token_redir_type(char *input, int i);
 void	token_redir_handler(t_token **token_list, char *input, int *i);
 void	token_pipe_handler(t_token **token_list, char *input, int *i);
+void	type_checker(t_token **token_list, char *input, int *i);
 void	token_split_space(t_token **token_list, char *input);
 
 // token handler.c
@@ -142,11 +146,11 @@ void	add_token(t_token **token_list, char *input, int i, t_info *info);
 void	token_end_of_word(char *input, int *i, t_info *info);
 void	token_quote_changer(char *input, int i, t_info *info);
 void	token_quote_handler(char *input, int *i, t_info *info);
+void	token_word_handler(t_token **token_list, char *input, int *i, int type);
 
 // token_tools.c
 t_token	*find_last_token(t_token *token);
 t_token	*add_last_token(t_token **token, t_token *new);
-int		get_token_type(char *input, int i);
 
 // initialize_structs.c
 t_token	*initialize_token(char *s, int type);

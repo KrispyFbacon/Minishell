@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: frbranda <frbranda@student.42.fr>          +#+  +:+       +#+         #
+#    By: yes <yes@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/10 15:04:25 by frbranda          #+#    #+#              #
-#    Updated: 2025/03/12 16:27:16 by frbranda         ###   ########.fr        #
+#    Updated: 2025/03/18 14:03:23 by yes              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,8 @@ RM = rm -rf
 VAL = valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --track-origins=yes --errors-for-leak-kinds=definite
 
 GENERAL = main.c
-PARSING = tokenizer.c token_split_space.c token_handler.c\
+PARSING = 
+TOKENIZER = tokenizer.c token_split_space.c token_handler.c\
 			initialize_structs.c token_tools.c
 FREE = free.c free_shell.c
 PRINT = print_tokens.c
@@ -44,8 +45,14 @@ RESET = \033[0m
 #==============================================================================#
 
 VPATH += src
+# parsing
 VPATH += src/parsing
+# tokenizer
+VPATH += src/tokenizer
+VPATH += src/tokenizer/00_handle_spaces
+# free
 VPATH += src/frees
+# print
 VPATH += src/prints
 
 #==============================================================================#
@@ -53,8 +60,13 @@ VPATH += src/prints
 #==============================================================================#
 
 SRC +=	$(GENERAL)
+# parsing
 SRC +=	$(PARSING)
+# tokenizer
+SRC +=	$(TOKENIZER)
+# free
 SRC +=	$(FREE)
+# print
 SRC +=	$(PRINT)
 
 # Library Paths

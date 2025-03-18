@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frbranda <frbranda@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 14:08:49 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/12 17:19:11 by frbranda         ###   ########.fr       */
+/*   Updated: 2025/03/18 13:21:30 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	print_token_type(t_token *token)
 {
 	if (token->type == CMD)
 		ft_printf("Type : CMD\n");
+	else if (token->type == ARG)
+		ft_printf("Type : ARG\n");
 	else if (token->type == PIPE)
 		ft_printf("Type : PIPE\n");
 	else if (token->type == REDIR_OUT)

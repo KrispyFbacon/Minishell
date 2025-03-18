@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frbranda <frbranda@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 19:01:28 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/12 17:17:27 by frbranda         ###   ########.fr       */
+/*   Updated: 2025/03/18 13:25:35 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,4 +95,33 @@ void	token_quote_handler(char *input, int *i, t_info *info)
 		if (input[*i] && ft_strchr(QUOTES, input[*i]))
 			token_quote_changer(input, *i, info);
 	}
+}
+
+void	token_word_handler(t_token **token_list, char *input, int *i, int type)
+{
+	t_info	info;
+
+	info.type = type;
+	while (input[*i] && ft_strchr(WHITE_SPACES, input[*i]))
+		(*i)++;
+	info.mode = GENERAL;
+	info.start = *i;
+	while (input[*i] && (info.mode != GENERAL
+			|| !(ft_strchr(WHITE_SPACES, input[*i]))))
+	{
+		if (ft_strchr(QUOTES, input[*i]))
+			token_quote_handler(input, i, &info);
+		else
+		{
+			token_end_of_word(input, i, &info);
+			if (ft_strchr(QUOTES, input[*i]))
+				token_quote_handler(input, i, &info);
+		}
+		if (info.mode == GENERAL && (ft_strchr(WHITE_SPACES, input[*i])
+				|| ft_strchr(OPERATOR, input[*i])))
+			break ;
+		if (input[*i])
+			(*i)++;
+	}
+	add_token(token_list, input, *i, &info);
 }

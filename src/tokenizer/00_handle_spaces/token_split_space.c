@@ -3,49 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   token_split_space.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frbranda <frbranda@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 16:23:25 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/12 17:18:39 by frbranda         ###   ########.fr       */
+/*   Updated: 2025/03/18 13:49:18 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	token_word_handler(t_token **token_list, char *input, int *i, int type)
+int	get_token_redir_type(char *input, int i)
 {
-	t_info	info;
+	int	type;
 
-	info.type = type;
-	while (input[*i] && ft_strchr(WHITE_SPACES, input[*i]))
-		(*i)++;
-	info.mode = GENERAL;
-	info.start = *i;
-	while (input[*i] && (info.mode != GENERAL
-			|| !(ft_strchr(WHITE_SPACES, input[*i]))))
+	type = 0;
+	if (ft_strchr(T_REDIR, input[i]))
 	{
-		if (ft_strchr(QUOTES, input[*i]))
-			token_quote_handler(input, i, &info);
-		else
-		{
-			token_end_of_word(input, i, &info);
-			if (ft_strchr(QUOTES, input[*i]))
-				token_quote_handler(input, i, &info);
-		}
-		if (info.mode == GENERAL && (ft_strchr(WHITE_SPACES, input[*i])
-				|| ft_strchr(OPERATOR, input[*i])))
-			break ;
-		if (input[*i])
-			(*i)++;
+		if (input[i] == '>' && input[i + 1] != '>')
+			type = REDIR_OUT;
+		else if (input[i] == '<' && input[i + 1] != '<')
+			type = REDIR_IN;
+		else if (input[i] == '>' && input[i + 1] == '>')
+			type = APPEND;
+		else if (input[i] == '<' && input[i + 1] == '<')
+			type = HEREDOC;
 	}
-	add_token(token_list, input, *i, &info);
+	return (type);
 }
 
 void	token_redir_handler(t_token **token_list, char *input, int *i)
 {
 	int	type;
 
-	type = get_token_type(input, *i);
+	type = get_token_redir_type(input, *i);
 	if (type == 0)
 		return ;
 	if (type == REDIR_OUT || type == REDIR_IN)
@@ -67,6 +57,19 @@ void	token_pipe_handler(t_token **token_list, char *input, int *i)
 	}
 }
 
+void	type_checker(t_token **token_list, char *input, int *i)
+{
+	t_token	*last;
+
+	if (!(*token_list))
+		token_word_handler(token_list, input, i, CMD);
+	last = find_last_token(*token_list);
+	if (last->type == PIPE)
+		token_word_handler(token_list, input, i, CMD);
+	else
+		token_word_handler(token_list, input, i, ARG);
+}
+
 void	token_split_space(t_token **token_list, char *input)
 {
 	int	i;
@@ -76,11 +79,13 @@ void	token_split_space(t_token **token_list, char *input)
 	{
 		while (input[i] && ft_strchr(WHITE_SPACES, input[i]))
 			i++;
+		if (!input[i])
+			return ;
 		if (input[i] && ft_strchr(T_PIPE, input[i]))
 			token_pipe_handler(token_list, input, &i);
 		else if (input[i] && ft_strchr(T_REDIR, input[i]))
 			token_redir_handler(token_list, input, &i);
 		else
-			token_word_handler(token_list, input, &i, CMD);
+			type_checker(token_list, input, &i);
 	}
 }

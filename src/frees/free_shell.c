@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_shell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frbranda <frbranda@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 14:03:57 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/12 17:18:54 by frbranda         ###   ########.fr       */
+/*   Updated: 2025/03/19 13:27:02 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	free_shell(t_shell	**shell)
 {
 	if ((*shell)->token_list)
 		free_tokens(&(*shell)->token_list);
-	if ((*shell)->env_var)
-		free((*shell)->env_var);
+	if ((*shell)->env)
+		free((*shell)->env);
 	free((*shell));
 }

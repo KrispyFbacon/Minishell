@@ -6,7 +6,7 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:12:31 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/18 17:36:02 by yes              ###   ########.fr       */
+/*   Updated: 2025/03/19 16:17:29 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,9 @@
 
 typedef struct s_env
 {
-	char			*var;	// $USER
+	char			*name;	// $USER
 	char			*value;	// frbranda
-	struct t_env	*next;
+	struct s_env	*next;
 }	t_env;
 
 typedef struct s_token
@@ -110,7 +110,7 @@ typedef struct s_shell
 {
 	t_token	*token_list;
 	t_token	*head;
-	t_env	*env_var;
+	t_env	*env;
 	int		exit_status;
 }	t_shell;
 
@@ -147,6 +147,15 @@ void	token_end_of_word(char *input, int *i, t_info *info);
 void	token_quote_changer(char *input, int i, t_info *info);
 void	token_quote_handler(char *input, int *i, t_info *info);
 void	token_word_handler(t_token **token_list, char *input, int *i, int type);
+
+// env
+void	quote_changer(char *s, int *i, t_info *info);
+char	*take_var_name(char *s, int *i);
+char	*get_env_value(char *var_name, t_env *env_list);
+char	*expand_var_in_str(char *s, char *var_value, int i, t_info *info);
+void	expand_env(t_shell *shell, char **s_ptr, int *i, t_info *info);
+void	node_expand(t_shell **shell, t_token **token);
+void	handle_expantions(t_shell **shell);
 
 // token_tools.c
 t_token	*find_last_token(t_token *token);

@@ -6,7 +6,7 @@
 #    By: yes <yes@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/10 15:04:25 by frbranda          #+#    #+#              #
-#    Updated: 2025/03/18 14:03:23 by yes              ###   ########.fr        #
+#    Updated: 2025/03/20 18:29:10 by yes              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,8 +24,9 @@ VAL = valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=
 
 GENERAL = main.c
 PARSING = 
-TOKENIZER = tokenizer.c token_split_space.c token_handler.c\
-			initialize_structs.c token_tools.c
+TOKENIZER = tokenizer.c initialize_structs.c token_tools.c \
+			token_split_space.c token_handler.c\
+			handle_expansions.c expansion_helper.c
 FREE = free.c free_shell.c
 PRINT = print_tokens.c
 
@@ -50,6 +51,7 @@ VPATH += src/parsing
 # tokenizer
 VPATH += src/tokenizer
 VPATH += src/tokenizer/00_handle_spaces
+VPATH += src/tokenizer/01_handle_expansions
 # free
 VPATH += src/frees
 # print

@@ -6,7 +6,7 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 13:48:28 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/18 14:54:39 by yes              ###   ########.fr       */
+/*   Updated: 2025/03/20 19:59:06 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ t_shell	*initialize_shell(void)
 		return (NULL);
 	new->token_list = NULL;
 	new->head = NULL;
-	new->env_var = NULL;
+	new->env = NULL;
+	new->pid = getpid();
 	new->exit_status = 0;
 	return (new);
 }

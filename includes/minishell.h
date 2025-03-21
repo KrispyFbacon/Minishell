@@ -6,7 +6,7 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:12:31 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/21 15:52:25 by yes              ###   ########.fr       */
+/*   Updated: 2025/03/21 16:50:39 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ typedef struct s_shell
 typedef struct s_info
 {
 	int	start;
+	int	end;
 	int	env_start;
 	int	env_end;
 	int	type;

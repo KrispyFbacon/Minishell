@@ -6,47 +6,49 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:12:25 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/21 15:54:47 by yes              ###   ########.fr       */
+/*   Updated: 2025/03/21 17:04:23 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-void	expand_env(char *s, int *i, t_info *info)
+void	separate_token(t_shell *shell, char **s_ptr, int *i, t_info *info)
 {
-	(*i)++;
-	ft_printf("Expantion made\n");
-	while (s[*i] && s[*i] != "\"" && !(ft_strchr(WHITE_SPACES, s[*i])))
-		*i++;
-	(*i)--;
+	char	*s;
+
+	s = *s_ptr;
+	info->start = *i;
+	while (s[*i] && ft_strchr(WHITE_SPACES, s[*i]))
+		i++;
+	info->end = *i;
+	
+	info->start = info->end;
 }
 
-void general_mode_handler();
-
-void	node_edit(t_shell **shell, t_token **token)
+void	node_quote_handle(t_shell **shell, t_token **token)
 {
 	t_info	info;
 	char	*s;
-	int	i;
-	
+	int		i;
+
 	info.mode = GENERAL;
 	s = (*token)->token;
 	i = 0;
+	info.start = i;
 	while (s[i])
 	{
 		if (s[i] && ft_strchr(QUOTES, s[i]))
-			mode_handler(s, &i, &info);
-		info.start = i;
-		if(info.mode == GENERAL)
-			general_mode_handler();
-		else if(info.mode == SINGLE_QUO)
-			single_quote_handler();
-		else if(info.mode == DOUBLE_QUO)
-			double_quote_handler();
-		i++;
+			quote_changer(s, &i, &info);
+		else if (s[i] && info.mode == SINGLE_QUO)
+			handle_single_quote(*shell, &s, &i, &info);
+		else if (s[i] && info.mode == DOUBLE_QUO)
+			handle_double_quote(*shell, &s, &i, &info);
+		else if(s[i] && info.mode == GENERAL && ft_strchr(WHITE_SPACES, s[i]))
+			separate_token(*shell, &s, &i, &info);
+		else
+			i++;
 	}
-	
+	(*token)->token = s;
 }
 
 void	handle_quotes(t_shell **shell)
@@ -56,10 +58,10 @@ void	handle_quotes(t_shell **shell)
 	token = (*shell)->token_list;
 	while(token)
 	{
-		node_edit(shell, &token);
+		node_handle(shell, &token);
 		token = token->next;
 	}
-} */
+}
 
 void	tokenizer(t_shell **shell, char *input)
 {

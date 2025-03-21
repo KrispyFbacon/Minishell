@@ -6,7 +6,7 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:12:25 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/20 18:30:21 by yes              ###   ########.fr       */
+/*   Updated: 2025/03/21 15:54:47 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ void	tokenizer(t_shell **shell, char *input)
 	(*shell)->head = token_list;
 	(*shell)->env = ft_calloc(1, sizeof(t_env));
 	(*shell)->env->name = "VAR";
-	//(*shell)->env->value = "BACON";
 	(*shell)->env->value = "s -";
 	(*shell)->env->next = NULL;
 	handle_expansions(shell);

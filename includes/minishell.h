@@ -6,7 +6,7 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:12:31 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/20 19:58:38 by yes              ###   ########.fr       */
+/*   Updated: 2025/03/21 15:52:25 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ typedef struct s_shell
 	t_token	*head;
 	t_env	*env;
 	int		pid;
+	char	*s_pid;
 	int		exit_status;
 }	t_shell;
 
@@ -150,8 +151,7 @@ void	token_quote_handler(char *input, int *i, t_info *info);
 void	token_word_handler(t_token **token_list, char *input, int *i, int type);
 
 // handle_expansions.c
-char	*expand_var_in_str(char *s, char *var_value, int i, t_info *info);
-char	*remove_dollar(char **s_ptr, int *i, t_info *info);
+char	*expand_variable(char *s, int *i, t_shell *shell, t_info *info);
 void	expand_env(t_shell *shell, char **s_ptr, int *i, t_info *info);
 void	node_expand(t_shell **shell, t_token **token);
 void	handle_expansions(t_shell **shell);
@@ -160,6 +160,11 @@ void	handle_expansions(t_shell **shell);
 void	quote_changer(char *s, int *i, t_info *info);
 char	*take_var_name(char *s, int *i);
 char	*get_env_value(char *var_name, t_env *env_list);
+char	*expand_var_in_str(char *s, char *var_value, int i, t_info *info);
+
+// handle_dollar_cases.c
+char	*remove_dollar(char **s_ptr, int *i, t_info *info);
+char	*handle_double_dollar(t_shell *shell, char *s, int *i, t_info *info);
 
 // token_tools.c
 t_token	*find_last_token(t_token *token);

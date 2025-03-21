@@ -6,7 +6,7 @@
 #    By: yes <yes@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/10 15:04:25 by frbranda          #+#    #+#              #
-#    Updated: 2025/03/20 18:29:10 by yes              ###   ########.fr        #
+#    Updated: 2025/03/21 15:55:15 by yes              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ GENERAL = main.c
 PARSING = 
 TOKENIZER = tokenizer.c initialize_structs.c token_tools.c \
 			token_split_space.c token_handler.c\
-			handle_expansions.c expansion_helper.c
+			handle_expansions.c expansion_helper.c handle_dollar_cases.c
 FREE = free.c free_shell.c
 PRINT = print_tokens.c
 

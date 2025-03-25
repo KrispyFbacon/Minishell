@@ -6,86 +6,62 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 16:23:25 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/24 14:20:37 by yes              ###   ########.fr       */
+/*   Updated: 2025/03/25 18:33:14 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	get_token_redir_type(char *input, int i)
+void	token_word_handler(char *s, int *i, t_info *info)
 {
-	int	type;
-
-	type = 0;
-	if (ft_strchr(T_REDIR, input[i]))
+	while (s[*i])
 	{
-		if (input[i] == '>' && input[i + 1] != '>')
-			type = REDIR_OUT;
-		else if (input[i] == '<' && input[i + 1] != '<')
-			type = REDIR_IN;
-		else if (input[i] == '>' && input[i + 1] == '>')
-			type = APPEND;
-		else if (input[i] == '<' && input[i + 1] == '<')
-			type = HEREDOC;
-	}
-	return (type);
-}
-
-void	token_redir_handler(t_token **token_list, char *input, int *i)
-{
-	int	type;
-
-	type = get_token_redir_type(input, *i);
-	if (type == 0)
-		return ;
-	if (type == REDIR_OUT || type == REDIR_IN)
-		(*i)++;
-	else if (type == APPEND || type == HEREDOC)
-		*i = *i + 2;
-	token_word_handler(token_list, input, i, type);
-}
-
-void	token_pipe_handler(t_token **token_list, char *input, int *i)
-{
-	t_token	*new_token;
-
-	if (input[*i] == '|')
-	{
-		new_token = initialize_token("|", PIPE);
-		add_last_token(token_list, new_token);
-		(*i)++;
-	}
-}
-
-void	type_checker(t_token **token_list, char *input, int *i)
-{
-	t_token	*last;
-
-	if (!(*token_list))
-		token_word_handler(token_list, input, i, CMD);
-	last = find_last_token(*token_list);
-	if (last->type == PIPE)
-		token_word_handler(token_list, input, i, CMD);
-	else
-		token_word_handler(token_list, input, i, ARG);
-}
-
-void	token_split_space(t_token **token_list, char *input)
-{
-	int	i;
-
-	i = 0;
-	while (input[i])
-	{
-		while (input[i] && ft_strchr(WHITE_SPACES, input[i]))
-			i++;
-		if (!input[i])
-			return ;
-		if (input[i] && ft_strchr(T_PIPE, input[i]))
-			token_pipe_handler(token_list, input, &i);
-		else if (input[i] && ft_strchr(T_REDIR, input[i]))
-			token_redir_handler(token_list, input, &i);
+		if (ft_strchr(QUOTES, s[*i]))
+			quote_changer (s, i, info);
+		else if (info->mode != GENERAL && ft_strchr(WHITE_SPACES, s[*i]))
+			(*i)++;
+		else if (info->mode == GENERAL && ft_strchr(WHITE_SPACES, s[*i]))
+			break ;
+		else if (info->mode == GENERAL && (ft_strchr(WHITE_SPACES, s[*i])
+		|| ft_strchr(OPERATOR, s[*i])))
+			break ;
 		else
-			type_checker(token_list, input, &i);
+			(*i)++;
 	}
+}
+
+void	token_redir_handler(char *s, int *i, t_info *info)
+{
+ 	get_token_redir_type(s, *i, info);
+	if (info->type == 0)
+		return ;
+	if (info->type == REDIR_OUT || info->type == REDIR_IN)
+		(*i)++;
+	else if (info->type == APPEND || info->type == HEREDOC)
+		*i = *i + 2;
+	while (s[*i] && ft_strchr(WHITE_SPACES, s[*i]))
+		(*i)++;
+	info->start = *i;
+}
+
+void	split_spaces(t_token *token_list, char *s, int *i, t_info *info)
+{
+	while (s[*i] && ft_strchr(WHITE_SPACES, s[*i]))
+			(*i)++;
+	info->start = *i;
+	if (s[*i] && ft_strchr(T_PIPE, s[*i]))
+	{
+		info->type = PIPE;
+		(*i)++;
+	}
+	else
+	{
+		if (s[*i] && ft_strchr(T_REDIR, s[*i]))
+			token_redir_handler(s, i, info);
+		else
+			get_token_type(token_list, info);
+		token_word_handler(s, i, info);
+	}
+	info->end = *i;
+	info->len = info->end - info->start;
 }

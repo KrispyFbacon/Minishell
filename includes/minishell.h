@@ -6,7 +6,7 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:12:31 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/21 16:50:39 by yes              ###   ########.fr       */
+/*   Updated: 2025/03/25 18:45:20 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ typedef struct s_info
 {
 	int	start;
 	int	end;
+	int	len;
 	int	env_start;
 	int	env_end;
 	int	type;
@@ -137,7 +138,34 @@ typedef struct s_info
 // tokenizer.c
 void	tokenizer(t_shell **shell, char *input);
 
-// token_space_split.c
+// delete after
+t_env	*initialize_env(void);
+void	print_type(t_info *info);
+
+// 00_handle_spaces
+//  token_split_space.c
+void	token_word_handler(char *s, int *i, t_info *info);
+void	token_redir_handler(char *s, int *i, t_info *info);
+void	split_spaces(t_token *token_list, char *s, int *i, t_info *info);
+
+//  type_helper.c
+void	get_token_redir_type(char *s, int i, t_info *info);
+void	get_token_type(t_token *token_list, t_info *info);
+
+// 01_handle_expantions
+// 
+
+// 02_handle_quotes
+//  quote_helper.c
+void	quote_changer(char *s, int *i, t_info *info);
+
+// 03_add_new_token
+//  add_new_token.c
+t_token	*add_new_token(t_token **token_list, char *temp, t_info *info);
+
+
+
+/* // token_space_split.c
 int		get_token_redir_type(char *input, int i);
 void	token_redir_handler(t_token **token_list, char *input, int *i);
 void	token_pipe_handler(t_token **token_list, char *input, int *i);
@@ -165,7 +193,7 @@ char	*expand_var_in_str(char *s, char *var_value, int i, t_info *info);
 
 // handle_dollar_cases.c
 char	*remove_dollar(char **s_ptr, int *i, t_info *info);
-char	*handle_double_dollar(t_shell *shell, char *s, int *i, t_info *info);
+char	*handle_double_dollar(t_shell *shell, char *s, int *i, t_info *info); */
 
 // token_tools.c
 t_token	*find_last_token(t_token *token);

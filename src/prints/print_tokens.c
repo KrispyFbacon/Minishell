@@ -6,7 +6,7 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 14:08:49 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/18 13:21:30 by yes              ###   ########.fr       */
+/*   Updated: 2025/03/25 17:16:28 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	print_tokens(t_token *token)
 	temp = token;
 	if (!token)
 		return ;
+	ft_printf("\n-----------------\n");
+	ft_printf("TOKEN LIST: \n");
 	ft_printf("-----------------\n");
 	while (temp)
 	{

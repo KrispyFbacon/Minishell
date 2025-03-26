@@ -6,30 +6,11 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:24:40 by yes               #+#    #+#             */
-/*   Updated: 2025/03/21 16:39:42 by yes              ###   ########.fr       */
+/*   Updated: 2025/03/26 12:45:44 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	quote_changer(char *s, int *i, t_info *info)
-{
-	if (s[*i] == '\'')
-	{
-		if (info->mode == GENERAL)
-			info->mode = SINGLE_QUO;
-		else if (info->mode == SINGLE_QUO)
-			info->mode = GENERAL;
-	}
-	else if (s[*i] == '\"')
-	{
-		if (info->mode == GENERAL)
-			info->mode = DOUBLE_QUO;
-		else if (info->mode == DOUBLE_QUO)
-			info->mode = GENERAL;
-	}
-	(*i)++;
-}
 
 char	*take_var_name(char *s, int *i)
 {

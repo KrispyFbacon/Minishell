@@ -6,7 +6,7 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:12:31 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/25 18:45:20 by yes              ###   ########.fr       */
+/*   Updated: 2025/03/26 15:15:01 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,8 +152,21 @@ void	split_spaces(t_token *token_list, char *s, int *i, t_info *info);
 void	get_token_redir_type(char *s, int i, t_info *info);
 void	get_token_type(t_token *token_list, t_info *info);
 
-// 01_handle_expantions
-// 
+// 01_handle_expansions
+//  handle_expansions.c
+char	*expand_variable(t_shell *shell, char *s, int *i, t_info *info);
+void	expand_env(t_shell *shell, char **s_ptr, int *i, t_info *info);
+void	handle_expansions(t_shell *shell, char **ptr_s, t_info *info);
+
+//  handle_dollar_cases.c
+char	*remove_dollar(char **s_ptr, int *i, t_info *info);
+char	*handle_double_dollar(t_shell *shell, char *s, int *i, t_info *info);
+char	*handle_question_mark(t_shell *shell, char *s, int *i, t_info *info);
+
+// expansion_helper.c
+char	*take_var_name(char *s, int *i);
+char	*get_env_value(char *var_name, t_env *env_list);
+char	*expand_var_in_str(char *s, char *var_value, int i, t_info *info);
 
 // 02_handle_quotes
 //  quote_helper.c
@@ -184,12 +197,6 @@ char	*expand_variable(char *s, int *i, t_shell *shell, t_info *info);
 void	expand_env(t_shell *shell, char **s_ptr, int *i, t_info *info);
 void	node_expand(t_shell **shell, t_token **token);
 void	handle_expansions(t_shell **shell);
-
-// expansion_helper.c
-void	quote_changer(char *s, int *i, t_info *info);
-char	*take_var_name(char *s, int *i);
-char	*get_env_value(char *var_name, t_env *env_list);
-char	*expand_var_in_str(char *s, char *var_value, int i, t_info *info);
 
 // handle_dollar_cases.c
 char	*remove_dollar(char **s_ptr, int *i, t_info *info);

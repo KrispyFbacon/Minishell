@@ -6,54 +6,11 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:12:25 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/25 19:16:29 by yes              ###   ########.fr       */
+/*   Updated: 2025/03/26 19:28:35 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	expand_env(t_shell *shell, char **s_ptr, int *i, t_info *info)
-{
-	char	*s;
-
-	s = *s_ptr;
-	info->env_start = (*i);
-	(*i)++;
-	if (!(s[*i]) || ft_strchr(WHITE_SPACES, s[*i]))
-		return ;
-	if (ft_strchr(QUOTES, s[*i]))
-	{
-		if (info->mode == GENERAL)
-			*s_ptr = remove_dollar(s_ptr, i, info);
-		return ;
-	}
-	if (s[*i] == '$')
-	{
-		*s_ptr = handle_double_dollar(shell, s, i, info);
-		return ;
-	}
-	*s_ptr = expand_variable(shell, s, i, info);
-}
-
-void	handle_expansions(t_shell *shell, char **ptr_s, t_info *info)
-{
-	char	*s;
-	int		i;
-
-	s = *ptr_s;
-	i = info->start;
-	info->mode = GENERAL;
-	while (s[i])
-	{
-		if (s[i] && ft_strchr(QUOTES, s[i]))
-			quote_changer(s, &i, &info);
-		else if (s[i] == '$' && info->mode != SINGLE_QUO)
-			expand_env(shell, &s, &i, &info);
-		else
-			i++;
-	}
-	*ptr_s = s;
-}
 
 void	tokenizer(t_shell **shell, char *s)
 {
@@ -69,19 +26,20 @@ void	tokenizer(t_shell **shell, char *s)
 	while (s[i])
 	{
 		split_spaces(token_list, s, &i, &info);
-		handle_expantions(*shell, &s, &info);
-		temp = ft_substr(s, info.start, info.len);
-		if (info.len > 0 || (info.type >= REDIR_IN && info.type <= HEREDOC))
+		handle_expansions(*shell, &s, &info);
+		temp = ft_substr(s, info.start, (info.end - info.start));
+		if (info.end - info.start > 0 || (info.type >= REDIR_IN && info.type <= HEREDOC))
 		{
 			ft_printf ("Token: {%s}\n", temp);
 			print_type(&info);
 			ft_printf("-----------------------\n");
 		}
 		add_new_token(&token_list, temp, &info);
+		free (temp);
+		temp = NULL;
 	}
 	//token_split_space(&s, &i);
 	(*shell)->token_list = token_list;
-	(*shell)->head = token_list;
 	print_tokens(token_list);
 	free((*shell)->env);
 	(*shell)->env = NULL;

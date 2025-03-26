@@ -6,13 +6,13 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:19:21 by yes               #+#    #+#             */
-/*   Updated: 2025/03/21 15:53:50 by yes              ###   ########.fr       */
+/*   Updated: 2025/03/26 19:34:27 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*expand_variable(char *s, int *i, t_shell *shell, t_info *info)
+char	*expand_variable(t_shell *shell, char *s, int *i, t_info *info)
 {
 	char	*var_name;
 	char	*var_value;
@@ -48,38 +48,44 @@ void	expand_env(t_shell *shell, char **s_ptr, int *i, t_info *info)
 		*s_ptr = handle_double_dollar(shell, s, i, info);
 		return ;
 	}
-	*s_ptr = expand_variable(s, i, shell, info);
+	if (s[*i] == '?')
+	{
+		*s_ptr = handle_question_mark(shell, s, i, info);
+		return ;
+	}
+	*s_ptr = expand_variable(shell, s, i, info);
 }
 
-void	node_expand(t_shell **shell, t_token **token)
+void	handle_expansions(t_shell *shell, char **s_ptr, t_info *info)
 {
-	t_info	info;
 	char	*s;
 	int		i;
 
-	info.mode = GENERAL;
-	s = (*token)->token;
-	i = 0;
-	while (s[i])
+	s = *s_ptr;
+	i = info->start;
+	info->mode = GENERAL;
+	while (s[i] && i < info->end)
 	{
 		if (s[i] && ft_strchr(QUOTES, s[i]))
-			quote_changer(s, &i, &info);
-		else if (s[i] == '$' && info.mode != SINGLE_QUO)
-			expand_env(*shell, &s, &i, &info);
+			quote_changer(s, &i, info);
+		else if (s[i] == '$' && info->mode != SINGLE_QUO)
+		{
+			printf("HERE: %s\n", *s_ptr);
+    		printf("i: %i\n", i);
+    		printf("ptr_s[i]: %c\n", *s_ptr[i]);
+    		printf("end: %i\n", info->end);
+			printf ("ptr_s[end]: %c\n", (*s_ptr)[info->end - 1]);
+			printf("SHELL SHUT UP: %s\n", (*shell).env->value);
+			//i++;
+			expand_env(shell, &s, &i, info);
+			*s_ptr = s;
+			printf ("HERE: %s\n", *s_ptr);
+			printf ("i: %i\n", i);
+			printf ("ptr_s[i]: %c\n", *s_ptr[i - 1]);
+			printf ("ptr_s[end]: %c\n", (*s_ptr)[info->end - 3]);
+		}
 		else
 			i++;
 	}
-	(*token)->token = s;
-}
-
-void	handle_expansions(t_shell **shell)
-{
-	t_token	*token;
-
-	token = (*shell)->token_list;
-	while (token)
-	{
-		node_expand(shell, &token);
-		token = token->next;
-	}
+	*s_ptr = s;
 }

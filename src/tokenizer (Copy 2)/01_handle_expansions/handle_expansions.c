@@ -6,7 +6,7 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:19:21 by yes               #+#    #+#             */
-/*   Updated: 2025/03/27 21:22:46 by yes              ###   ########.fr       */
+/*   Updated: 2025/03/27 21:11:18 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,18 @@ char	*expand_variable(t_shell *shell, char *s, int *i, t_info *info)
 	var_value = get_env_value(var_name, shell->env);
 	new_s = expand_var_in_str(s, var_value, *i, info);
 	free(var_name);
-	free(s);
+	if (new_s)
+		free(s);
+	else
+		s = new_s;
 	*i = info->env_start + ft_strlen(var_value);
-	return (new_s);
+	return (s);
 }
 
 void	expand_env(t_shell *shell, char **s_ptr, int *i, t_info *info)
 {
 	char	*s;
+	char	*new_s;
 
 	s = *s_ptr;
 	info->env_start = (*i);
@@ -53,7 +57,14 @@ void	expand_env(t_shell *shell, char **s_ptr, int *i, t_info *info)
 		*s_ptr = handle_question_mark(shell, s, i, info);
 		return ;
 	}
-	*s_ptr = expand_variable(shell, s, i, info);
+	printf("s_ptr: %p -> {%s}\n", *s_ptr, *s_ptr);
+	new_s = expand_variable(shell, s, i, info);
+	if (new_s != s)
+		free(s);
+	*s_ptr = new_s;
+	printf("s: %p -> {%s}\n", s, s);
+	printf("s_ptr: %p -> {%s}\n", *s_ptr, *s_ptr);
+	*i = info->start;
 }
 
 void	handle_expansions(t_shell *shell, char **s_ptr, t_info *info)
@@ -62,6 +73,7 @@ void	handle_expansions(t_shell *shell, char **s_ptr, t_info *info)
 	int		i;
 
 	s = *s_ptr;
+	printf("Before expansion: %p -> {%s}\n", s, s);
 	i = info->start;
 	info->mode = GENERAL;
 	while (s[i] && i < info->end)
@@ -79,6 +91,10 @@ void	handle_expansions(t_shell *shell, char **s_ptr, t_info *info)
 			printf ("ptr_s[end]: %c\n", (*s_ptr)[info->end]);
 			expand_env(shell, &s, &i, info);
 			*s_ptr = s;
+			while (s[i] && (info->mode != GENERAL ||
+				!(ft_strchr(WHITE_SPACES, s[i]))))
+				i++;
+			info->end = i;
 			printf ("HERE: {%s}\n", *s_ptr);
 			printf ("i: %i\n", i);
 			printf ("ptr_s[i]: %c\n", (*s_ptr)[i]);
@@ -86,9 +102,11 @@ void	handle_expansions(t_shell *shell, char **s_ptr, t_info *info)
 			printf ("ptr_s[start]: %c\n", (*s_ptr)[info->start]);
 			printf("end: %i\n", info->end);
 			printf ("ptr_s[end]: %c\n", (*s_ptr)[info->end]);
+			printf("After expansion: %p -> {%s}\n", s, s);
+			return ;
 		}
 		else
 			i++;
 	}
-	*s_ptr = s;
+	printf("After expansion: %p -> {%s}\n", s, s);
 }

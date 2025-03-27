@@ -6,7 +6,7 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:12:25 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/27 21:18:16 by yes              ###   ########.fr       */
+/*   Updated: 2025/03/27 20:13:53 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,12 @@ void	tokenizer(t_shell **shell, char *s)
 	while (s[i])
 	{
 		split_spaces(token_list, s, &i, &info);
+		printf("Before expansion: %p -> {%s}\n", s, s);
 		handle_expansions(*shell, &s, &info);
+		printf("After expansion: %p -> {%s}\n", s, s);
+		printf("s: {%s}\n", s);
 		temp = ft_substr(s, info.start, (info.end - info.start));
+		printf("temp: {%s}\n", temp);
 		if (info.end - info.start > 0 || (info.type >= REDIR_IN && info.type <= HEREDOC))
 		{
 			ft_printf ("Token: {%s}\n", temp);

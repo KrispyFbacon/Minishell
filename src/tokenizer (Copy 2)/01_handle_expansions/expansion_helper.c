@@ -6,7 +6,7 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:24:40 by yes               #+#    #+#             */
-/*   Updated: 2025/03/27 21:22:18 by yes              ###   ########.fr       */
+/*   Updated: 2025/03/27 20:38:26 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*get_env_value(char *var_name, t_env *env_list)
 			return (temp->value);
 		temp = temp->next;
 	}
-	return ("");
+	return (ft_strdup(""));
 }
 
 char	*expand_var_in_str(char *s, char *var_value, int i, t_info *info)
@@ -61,9 +61,10 @@ char	*expand_var_in_str(char *s, char *var_value, int i, t_info *info)
 	new_len = s_len - var_len + value_len;
 	new_s = (char *)ft_calloc((new_len + 1), sizeof(char));
 	if (!new_s)
-		return (NULL);
+		return (ft_strdup(s));
 	ft_memcpy(new_s, s, info->env_start);
-	ft_strlcpy(new_s + info->env_start, var_value, (value_len + 1));
+	if (value_len > 0)
+		ft_strlcpy(new_s + info->env_start, var_value, (value_len + 1));
 	ft_strlcpy(new_s + info->env_start + value_len, s + i, (s_len - i + 1));
 	new_s[new_len] = '\0';
 	return (new_s);

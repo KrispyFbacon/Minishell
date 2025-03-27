@@ -6,7 +6,7 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:04:38 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/25 13:56:40 by yes              ###   ########.fr       */
+/*   Updated: 2025/03/27 20:01:37 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ int	main(void)
 			ft_putstr_fd("exit\n", 2);
 			break ;
 		}
-		tokenizer(&shell, input);
 		add_history(input);
+		tokenizer(&shell, input);
 		free_tokens(&shell->token_list);
 		free(input);
 	}

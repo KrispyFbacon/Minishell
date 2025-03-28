@@ -6,7 +6,7 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:12:31 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/26 15:15:01 by yes              ###   ########.fr       */
+/*   Updated: 2025/03/28 19:56:33 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,9 +154,9 @@ void	get_token_type(t_token *token_list, t_info *info);
 
 // 01_handle_expansions
 //  handle_expansions.c
-char	*expand_variable(t_shell *shell, char *s, int *i, t_info *info);
-void	expand_env(t_shell *shell, char **s_ptr, int *i, t_info *info);
-void	handle_expansions(t_shell *shell, char **ptr_s, t_info *info);
+char	*expand_variable(t_shell *shell, char **s_ptr, int *i, t_info *info);
+int		expand_env(t_shell *shell, char **s_ptr, int *i, t_info *info);
+int		handle_expansions(t_shell *shell, char **s_ptr, int *i, t_info *info);
 
 //  handle_dollar_cases.c
 char	*remove_dollar(char **s_ptr, int *i, t_info *info);

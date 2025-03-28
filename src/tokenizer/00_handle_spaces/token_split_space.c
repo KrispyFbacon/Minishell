@@ -6,7 +6,7 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 16:23:25 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/27 19:33:38 by yes              ###   ########.fr       */
+/*   Updated: 2025/03/28 21:56:11 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	token_redir_handler(char *s, int *i, t_info *info)
 
 void	split_spaces(t_token *token_list, char *s, int *i, t_info *info)
 {
+	info->mode = GENERAL;
 	while (s[*i] && ft_strchr(WHITE_SPACES, s[*i]))
 			(*i)++;
 	info->start = *i;

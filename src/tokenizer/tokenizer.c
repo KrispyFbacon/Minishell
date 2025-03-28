@@ -6,7 +6,7 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:12:25 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/27 21:18:16 by yes              ###   ########.fr       */
+/*   Updated: 2025/03/28 22:06:59 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,17 @@ void	tokenizer(t_shell **shell, char *s)
 	info.mode = GENERAL;
 	i = 0;
 	(*shell)->env = initialize_env();
+	printf("Before expansion: %p -> {%s}\n", s, s);
 	while (s[i])
 	{
 		split_spaces(token_list, s, &i, &info);
-		handle_expansions(*shell, &s, &info);
+		printf("S: %p -> {%s}\n", s, s);
+		if (handle_expansions(*shell, &s, &i, &info) == TRUE)
+			continue ;
+		// handle_quotes;
 		temp = ft_substr(s, info.start, (info.end - info.start));
+		printf("S AFTER EXPANSION: %p -> {%s}\n", s, s);
+		printf("TEMP AFTER EXPANSION: %p -> {%s}\n", temp, temp);
 		if (info.end - info.start > 0 || (info.type >= REDIR_IN && info.type <= HEREDOC))
 		{
 			ft_printf ("Token: {%s}\n", temp);
@@ -38,21 +44,27 @@ void	tokenizer(t_shell **shell, char *s)
 		free (temp);
 		temp = NULL;
 	}
-	//token_split_space(&s, &i);
+	printf("input after: %p -> {%s}\n", s, s);
+	free(s);
 	(*shell)->token_list = token_list;
 	print_tokens(token_list);
-	free((*shell)->env);
-	(*shell)->env = NULL;
 }
 
 t_env	*initialize_env(void)
 {
 	t_env	*new;
+	t_env	*new2;
 
 	new = ft_calloc(1, sizeof(t_env));
 	new->name = "VAR";
-	new->value = "s -";
+	new->value = "$VAR1";
 	new->next = NULL;
+	new2 = ft_calloc(1, sizeof(t_env));
+	new2->name = "VAR1";
+	new2->value = "s -";
+	new2->next = NULL;
+	new->next = new2;
+	
 	return (new);
 }
 

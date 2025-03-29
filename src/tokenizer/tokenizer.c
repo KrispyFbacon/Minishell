@@ -6,7 +6,7 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:12:25 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/28 22:06:59 by yes              ###   ########.fr       */
+/*   Updated: 2025/03/29 17:04:43 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,15 @@ void	tokenizer(t_shell **shell, char *s)
 
 	token_list = NULL;
 	info.mode = GENERAL;
+	info.type_flag = FALSE;
 	i = 0;
-	(*shell)->env = initialize_env();
-	printf("Before expansion: %p -> {%s}\n", s, s);
 	while (s[i])
 	{
 		split_spaces(token_list, s, &i, &info);
-		printf("S: %p -> {%s}\n", s, s);
 		if (handle_expansions(*shell, &s, &i, &info) == TRUE)
 			continue ;
 		// handle_quotes;
 		temp = ft_substr(s, info.start, (info.end - info.start));
-		printf("S AFTER EXPANSION: %p -> {%s}\n", s, s);
-		printf("TEMP AFTER EXPANSION: %p -> {%s}\n", temp, temp);
 		if (info.end - info.start > 0 || (info.type >= REDIR_IN && info.type <= HEREDOC))
 		{
 			ft_printf ("Token: {%s}\n", temp);
@@ -41,10 +37,10 @@ void	tokenizer(t_shell **shell, char *s)
 			ft_printf("-----------------------\n");
 		}
 		add_new_token(&token_list, temp, &info);
+		info.type_flag = FALSE;
 		free (temp);
 		temp = NULL;
 	}
-	printf("input after: %p -> {%s}\n", s, s);
 	free(s);
 	(*shell)->token_list = token_list;
 	print_tokens(token_list);
@@ -61,7 +57,7 @@ t_env	*initialize_env(void)
 	new->next = NULL;
 	new2 = ft_calloc(1, sizeof(t_env));
 	new2->name = "VAR1";
-	new2->value = "s -";
+	new2->value = ">>";
 	new2->next = NULL;
 	new->next = new2;
 	
@@ -89,6 +85,18 @@ void	print_type(t_info *info)
 	else
 		ft_printf("Type : NULL\n");
 }
+
+/*
+printf("Before expansion: %p -> {%s}\n", s, s);
+printf("S: %p -> {%s}\n", s, s);
+		printf("TYPE_FLAG: %i\n", info.type_flag);
+		printf("TYPE: %i\n", info.type);
+		printf("START: %i\n", info.start);
+		printf("END: %i\n", info.end);
+		printf("S AFTER EXPANSION: %p -> {%s}\n", s, s);
+		printf("TEMP AFTER EXPANSION: %p -> {%s}\n", temp, temp);
+		printf("input after: %p -> {%s}\n", s, s);
+*/
 
 /* ft_printf("DOING A LOOP\n");
 	ft_printf("input[i]: %c\n", input[*i]);

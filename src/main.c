@@ -6,7 +6,7 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:04:38 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/28 21:33:05 by yes              ###   ########.fr       */
+/*   Updated: 2025/03/29 15:44:30 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	main(void)
 	char	*input;
 
 	shell = initialize_shell();
+	shell->env = initialize_env();
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGTSTP, SIG_IGN);

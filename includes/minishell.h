@@ -6,7 +6,7 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:12:31 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/28 19:56:33 by yes              ###   ########.fr       */
+/*   Updated: 2025/03/29 16:08:28 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ typedef struct s_info
 	int	env_start;
 	int	env_end;
 	int	type;
+	int	type_flag;
 	int	mode;
 }	t_info;
 

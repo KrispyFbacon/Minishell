@@ -6,13 +6,12 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 16:23:25 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/28 21:56:11 by yes              ###   ########.fr       */
+/*   Updated: 2025/03/29 17:10:44 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// TODO line 25 and 27 same thing delete
 
 void	token_word_handler(char *s, int *i, t_info *info)
 {
@@ -22,10 +21,11 @@ void	token_word_handler(char *s, int *i, t_info *info)
 			quote_changer (s, i, info);
 		else if (info->mode != GENERAL && ft_strchr(WHITE_SPACES, s[*i]))
 			(*i)++;
-		else if (info->mode == GENERAL && ft_strchr(WHITE_SPACES, s[*i]))
-			break ;
+		else if (info->mode == GENERAL && ft_strchr(OPERATOR, s[*i])
+				&& (info->type_flag == TRUE))
+			(*i)++;
 		else if (info->mode == GENERAL && (ft_strchr(WHITE_SPACES, s[*i])
-		|| ft_strchr(OPERATOR, s[*i])))
+			|| ft_strchr(OPERATOR, s[*i])) )
 			break ;
 		else
 			(*i)++;
@@ -52,19 +52,20 @@ void	split_spaces(t_token *token_list, char *s, int *i, t_info *info)
 	while (s[*i] && ft_strchr(WHITE_SPACES, s[*i]))
 			(*i)++;
 	info->start = *i;
-	if (s[*i] && ft_strchr(T_PIPE, s[*i]))
+	if (s[*i] && ft_strchr(T_PIPE, s[*i]) && info->type_flag == FALSE)
 	{
 		info->type = PIPE;
 		(*i)++;
 	}
 	else
 	{
-		if (s[*i] && ft_strchr(T_REDIR, s[*i]))
+		if (s[*i] && ft_strchr(T_REDIR, s[*i]) && info->type_flag == FALSE)
 			token_redir_handler(s, i, info);
 		else
 			get_token_type(token_list, info);
 		token_word_handler(s, i, info);
 	}
+	info->type_flag = TRUE;
 	info->end = *i;
 	info->len = info->end - info->start;
 }

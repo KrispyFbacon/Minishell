@@ -6,28 +6,11 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:19:21 by yes               #+#    #+#             */
-/*   Updated: 2025/03/28 22:27:39 by yes              ###   ########.fr       */
+/*   Updated: 2025/03/29 17:10:11 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*expand_variable(t_shell *shell, char **s_ptr, int *i, t_info *info)
-{
-	char	*var_name;
-	char	*var_value;
-	char	*new_s;
-	char	*s;
-
-	s = *s_ptr;
-	var_name = take_var_name(s, i);
-	info->env_end = (*i);
-	var_value = get_env_value(var_name, shell->env);
-	new_s = expand_var_in_str(s, var_value, *i, info);
-	free(var_name);
-	*i = info->env_start + ft_strlen(var_value);
-	return (new_s);
-}
 
 /* void	expand_env2(t_shell *shell, char **s_ptr, int *i, t_info *info)
 {
@@ -57,28 +40,44 @@ char	*expand_variable(t_shell *shell, char **s_ptr, int *i, t_info *info)
 	*s_ptr = expand_variable(shell, s_ptr, i, info);
 } */
 
+char	*expand_variable(t_shell *shell, char **s_ptr, int *i, t_info *info)
+{
+	char	*var_name;
+	char	*var_value;
+	char	*new_s;
+	char	*s;
+
+	s = *s_ptr;
+	var_name = take_var_name(s, i);
+	info->env_end = (*i);
+	var_value = get_env_value(var_name, shell->env);
+	new_s = expand_var_in_str(s, var_value, *i, info);
+	free(var_name);
+	*i = info->env_start + ft_strlen(var_value);
+	return (new_s);
+}
+
 int	expand_env(t_shell *shell, char **s_ptr, int *i, t_info *info)
 {
 	char	*s;
 	char	*new_s;
 
 	s = *s_ptr;
-	printf("S_ptr: %p -> {%s}\n", *s_ptr, *s_ptr);
-	printf("S normal: %p -> {%s}\n", s, s);
 	info->env_start = (*i);
 	(*i)++;
 	if (!(s[*i]) || ft_strchr(WHITE_SPACES, s[*i]))
 		return (FALSE);
-	if (ft_strchr(QUOTES, s[*i]))
-	{
-		if (info->mode == GENERAL)
-			new_s = remove_dollar(&s, i, info);
+	else if (ft_strchr(QUOTES, s[*i]) && info->mode == DOUBLE_QUO)
 		return (FALSE);
-	}
-	new_s = expand_variable(shell, &s, i, info);
+	else if (ft_strchr(QUOTES, s[*i]) && info->mode == GENERAL)
+		new_s = remove_dollar(&s, i, info);
+	else if (s[*i] == '$')
+		new_s = handle_double_dollar(shell, s, i, info);
+	else if (s[*i] == '?')
+		new_s = handle_question_mark(shell, s, i, info);
+	else
+		new_s = expand_variable(shell, &s, i, info);
 	*s_ptr = new_s;
-	printf("S_ptr: %p -> {%s}\n", *s_ptr, *s_ptr);
-	printf("S normal: %p -> {%s}\n", s, s);
 	return (TRUE);
 }
 
@@ -107,7 +106,6 @@ int	handle_expansions(t_shell *shell, char **s_ptr, int *i, t_info *info)
 		else
 			(*i)++;
 	}
-	printf("Inside S: %p -> {%s}\n", s, s);
 	return (FALSE);
 }
 

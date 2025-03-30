@@ -6,7 +6,7 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:12:25 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/29 17:04:43 by yes              ###   ########.fr       */
+/*   Updated: 2025/03/30 19:42:31 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,8 @@ void	tokenizer(t_shell **shell, char *s)
 		split_spaces(token_list, s, &i, &info);
 		if (handle_expansions(*shell, &s, &i, &info) == TRUE)
 			continue ;
-		// handle_quotes;
+		handle_quotes(&s, &i, &info);
 		temp = ft_substr(s, info.start, (info.end - info.start));
-		if (info.end - info.start > 0 || (info.type >= REDIR_IN && info.type <= HEREDOC))
-		{
-			ft_printf ("Token: {%s}\n", temp);
-			print_type(&info);
-			ft_printf("-----------------------\n");
-		}
 		add_new_token(&token_list, temp, &info);
 		info.type_flag = FALSE;
 		free (temp);
@@ -60,7 +54,6 @@ t_env	*initialize_env(void)
 	new2->value = ">>";
 	new2->next = NULL;
 	new->next = new2;
-	
 	return (new);
 }
 
@@ -96,6 +89,8 @@ printf("S: %p -> {%s}\n", s, s);
 		printf("S AFTER EXPANSION: %p -> {%s}\n", s, s);
 		printf("TEMP AFTER EXPANSION: %p -> {%s}\n", temp, temp);
 		printf("input after: %p -> {%s}\n", s, s);
+		printf("Before expansion: %p -> {%s}\n", input, input);
+		printf("input after: %p -> {%s}\n", input, input);
 */
 
 /* ft_printf("DOING A LOOP\n");

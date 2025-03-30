@@ -6,12 +6,11 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 18:37:38 by yes               #+#    #+#             */
-/*   Updated: 2025/03/25 18:37:40 by yes              ###   ########.fr       */
+/*   Updated: 2025/03/30 19:40:19 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// TODO change header
-// TODO add makefile and .h
+// TODO change header ^
 
 #include "minishell.h"
 
@@ -34,6 +33,8 @@ void	get_token_type(t_token *token_list, t_info *info)
 {
 	t_token	*last;
 
+	if (info->type_flag == TRUE)
+		return ;
 	if (!token_list)
 	{
 		info->type = CMD;

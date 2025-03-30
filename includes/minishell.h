@@ -6,7 +6,7 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:12:31 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/29 16:08:28 by yes              ###   ########.fr       */
+/*   Updated: 2025/03/30 19:41:29 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,20 +164,22 @@ char	*remove_dollar(char **s_ptr, int *i, t_info *info);
 char	*handle_double_dollar(t_shell *shell, char *s, int *i, t_info *info);
 char	*handle_question_mark(t_shell *shell, char *s, int *i, t_info *info);
 
-// expansion_helper.c
+//  expansion_helper.c
 char	*take_var_name(char *s, int *i);
 char	*get_env_value(char *var_name, t_env *env_list);
 char	*expand_var_in_str(char *s, char *var_value, int i, t_info *info);
 
 // 02_handle_quotes
+//  handle_quote.c
+void	remove_quotes(char *s, int i, t_info *info);
+void	handle_quotes(char **s_ptr, int *i, t_info *info);
+
 //  quote_helper.c
 void	quote_changer(char *s, int *i, t_info *info);
 
 // 03_add_new_token
 //  add_new_token.c
 t_token	*add_new_token(t_token **token_list, char *temp, t_info *info);
-
-
 
 /* // token_space_split.c
 int		get_token_redir_type(char *input, int i);

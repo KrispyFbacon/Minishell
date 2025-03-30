@@ -6,39 +6,11 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:19:21 by yes               #+#    #+#             */
-/*   Updated: 2025/03/29 17:10:11 by yes              ###   ########.fr       */
+/*   Updated: 2025/03/30 16:44:45 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/* void	expand_env2(t_shell *shell, char **s_ptr, int *i, t_info *info)
-{
-	char	*s;
-
-	s = *s_ptr;
-	info->env_start = (*i);
-	(*i)++;
-	if (!(s[*i]) || ft_strchr(WHITE_SPACES, s[*i]))
-		return ;
-	if (ft_strchr(QUOTES, s[*i]))
-	{
-		if (info->mode == GENERAL)
-			*s_ptr = remove_dollar(s_ptr, i, info);
-		return ;
-	}
-	if (s[*i] == '$')
-	{
-		*s_ptr = handle_double_dollar(shell, s, i, info);
-		return ;
-	}
-	if (s[*i] == '?')
-	{
-		*s_ptr = handle_question_mark(shell, s, i, info);
-		return ;
-	}
-	*s_ptr = expand_variable(shell, s_ptr, i, info);
-} */
 
 char	*expand_variable(t_shell *shell, char **s_ptr, int *i, t_info *info)
 {
@@ -84,7 +56,7 @@ int	expand_env(t_shell *shell, char **s_ptr, int *i, t_info *info)
 int	handle_expansions(t_shell *shell, char **s_ptr, int *i, t_info *info)
 {
 	char	*s;
-	
+
 	s = *s_ptr;
 	info->mode = GENERAL;
 	*i = info->start;
@@ -108,34 +80,6 @@ int	handle_expansions(t_shell *shell, char **s_ptr, int *i, t_info *info)
 	}
 	return (FALSE);
 }
-
-/* void	expand_env(t_shell *shell, char **s_ptr, int *i, t_info *info)
-{
-	char	*s;
-
-	s = *s_ptr;
-	info->env_start = (*i);
-	(*i)++;
-	if (!(s[*i]) || ft_strchr(WHITE_SPACES, s[*i]))
-		return ;
-	if (ft_strchr(QUOTES, s[*i]))
-	{
-		if (info->mode == GENERAL)
-			*s_ptr = remove_dollar(s_ptr, i, info);
-		return ;
-	}
-	if (s[*i] == '$')
-	{
-		*s_ptr = handle_double_dollar(shell, s, i, info);
-		return ;
-	}
-	if (s[*i] == '?')
-	{
-		*s_ptr = handle_question_mark(shell, s, i, info);
-		return ;
-	}
-	*s_ptr = expand_variable(shell, s_ptr, i, info);
-} */
 
 /* printf("HERE: {%s}\n", *s_ptr);
 			printf("i: %i\n", i);

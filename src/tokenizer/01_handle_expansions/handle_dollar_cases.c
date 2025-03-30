@@ -6,7 +6,7 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 15:50:52 by yes               #+#    #+#             */
-/*   Updated: 2025/03/29 17:20:34 by yes              ###   ########.fr       */
+/*   Updated: 2025/03/30 16:36:11 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,3 @@ char	*handle_question_mark(t_shell *shell, char *s, int *i, t_info *info)
 	*i = info->env_start + exit_status_len;
 	return (s);
 }
-

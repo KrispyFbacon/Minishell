@@ -6,7 +6,7 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 13:48:28 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/21 15:17:40 by yes              ###   ########.fr       */
+/*   Updated: 2025/03/31 12:52:22 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,24 @@ t_token	*initialize_token(char *s, int type)
 	new->token = ft_strdup(s);
 	new->type = type;
 	new->next = NULL;
+	return (new);
+}
+
+// TODO DELETE LATER WHEN ENV IS INITIALIZE
+t_env	*initialize_env(void)
+{
+	t_env	*new;
+	t_env	*new2;
+
+	new = ft_calloc(1, sizeof(t_env));
+	new->name = "VAR";
+	new->value = "$VAR1";
+	new->next = NULL;
+	new2 = ft_calloc(1, sizeof(t_env));
+	new2->name = "VAR1";
+	new2->value = ">>";
+	new2->next = NULL;
+	new->next = new2;
 	return (new);
 }
 

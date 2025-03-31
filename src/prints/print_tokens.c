@@ -6,11 +6,33 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 14:08:49 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/25 17:16:28 by yes              ###   ########.fr       */
+/*   Updated: 2025/03/31 12:55:30 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	print_type(t_info *info)
+{
+	if (info->len <= 0)
+		return ;
+	if (info->type == CMD)
+		ft_printf("Type : CMD\n");
+	else if (info->type == ARG)
+		ft_printf("Type : ARG\n");
+	else if (info->type == PIPE)
+		ft_printf("Type : PIPE\n");
+	else if (info->type == REDIR_OUT)
+		ft_printf("Type : REDIR_OUT\n");
+	else if (info->type == REDIR_IN)
+		ft_printf("Type : REDIR_IN\n");
+	else if (info->type == APPEND)
+		ft_printf("Type : APPEND\n");
+	else if (info->type == HEREDOC)
+		ft_printf("Type : HEREDOC\n");
+	else
+		ft_printf("Type : NULL\n");
+}
 
 void	print_token_type(t_token *token)
 {
@@ -55,7 +77,7 @@ void	print_tokens(t_token *token)
 	}
 }
 
-void	print_tokens_simple(t_token *token)
+/* void	print_tokens_simple(t_token *token)
 {
 	t_token	*temp;
 
@@ -70,4 +92,4 @@ void	print_tokens_simple(t_token *token)
 		temp = temp->next;
 	}
 	ft_printf("]\n");
-}
+} */

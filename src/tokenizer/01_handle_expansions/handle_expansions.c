@@ -6,7 +6,7 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:19:21 by yes               #+#    #+#             */
-/*   Updated: 2025/03/30 16:44:45 by yes              ###   ########.fr       */
+/*   Updated: 2025/03/31 12:52:58 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ int	handle_expansions(t_shell *shell, char **s_ptr, int *i, t_info *info)
 	}
 	return (FALSE);
 }
+// TODO DELETE v
 
 /* printf("HERE: {%s}\n", *s_ptr);
 			printf("i: %i\n", i);

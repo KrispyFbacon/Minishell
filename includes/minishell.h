@@ -6,7 +6,7 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:12:31 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/30 19:41:29 by yes              ###   ########.fr       */
+/*   Updated: 2025/03/31 12:57:17 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ typedef struct s_shell
 	int		exit_status;
 }	t_shell;
 
+// struct helper
 typedef struct s_info
 {
 	int	start;
@@ -138,10 +139,6 @@ typedef struct s_info
 
 // tokenizer.c
 void	tokenizer(t_shell **shell, char *input);
-
-// delete after
-t_env	*initialize_env(void);
-void	print_type(t_info *info);
 
 // 00_handle_spaces
 //  token_split_space.c
@@ -170,7 +167,7 @@ char	*get_env_value(char *var_name, t_env *env_list);
 char	*expand_var_in_str(char *s, char *var_value, int i, t_info *info);
 
 // 02_handle_quotes
-//  handle_quote.c
+//	handle_quote.c
 void	remove_quotes(char *s, int i, t_info *info);
 void	handle_quotes(char **s_ptr, int *i, t_info *info);
 
@@ -181,35 +178,13 @@ void	quote_changer(char *s, int *i, t_info *info);
 //  add_new_token.c
 t_token	*add_new_token(t_token **token_list, char *temp, t_info *info);
 
-/* // token_space_split.c
-int		get_token_redir_type(char *input, int i);
-void	token_redir_handler(t_token **token_list, char *input, int *i);
-void	token_pipe_handler(t_token **token_list, char *input, int *i);
-void	type_checker(t_token **token_list, char *input, int *i);
-void	token_split_space(t_token **token_list, char *input);
-
-// token handler.c
-void	add_token(t_token **token_list, char *input, int i, t_info *info);
-void	token_end_of_word(char *input, int *i, t_info *info);
-void	token_quote_changer(char *input, int i, t_info *info);
-void	token_quote_handler(char *input, int *i, t_info *info);
-void	token_word_handler(t_token **token_list, char *input, int *i, int type);
-
-// handle_expansions.c
-char	*expand_variable(char *s, int *i, t_shell *shell, t_info *info);
-void	expand_env(t_shell *shell, char **s_ptr, int *i, t_info *info);
-void	node_expand(t_shell **shell, t_token **token);
-void	handle_expansions(t_shell **shell);
-
-// handle_dollar_cases.c
-char	*remove_dollar(char **s_ptr, int *i, t_info *info);
-char	*handle_double_dollar(t_shell *shell, char *s, int *i, t_info *info); */
-
 // token_tools.c
 t_token	*find_last_token(t_token *token);
 t_token	*add_last_token(t_token **token, t_token *new);
 
 // initialize_structs.c
+// TODO DELETE v
+t_env	*initialize_env(void);
 t_token	*initialize_token(char *s, int type);
 t_shell	*initialize_shell(void);
 
@@ -231,6 +206,7 @@ void	free_char_pp(char **s);
 // print_shell.c?
 
 // print_token.c
+void	print_type(t_info *info);
 void	print_tokens(t_token *token);
 void	print_tokens_simple(t_token *token);
 

@@ -6,7 +6,7 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:12:31 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/31 12:57:17 by yes              ###   ########.fr       */
+/*   Updated: 2025/04/01 17:06:46 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,16 +106,6 @@ typedef struct s_cmd
 	t_redir	*redirs;
 }	t_cmd;
 
-typedef struct s_shell
-{
-	t_token	*token_list;
-	t_token	*head;
-	t_env	*env;
-	int		pid;
-	char	*s_pid;
-	int		exit_status;
-}	t_shell;
-
 // struct helper
 typedef struct s_info
 {
@@ -127,7 +117,20 @@ typedef struct s_info
 	int	type;
 	int	type_flag;
 	int	mode;
+	int	temp_flag;
 }	t_info;
+
+typedef struct s_shell
+{
+	t_token	*token_list;
+	t_token	*head;
+	t_env	*env;
+	t_info	info;
+	int		pid;
+	char	*s_pid;
+	int		exit_status;
+}	t_shell;
+
 
 /*=============================================================================#
 #                               GENERAL                                        #
@@ -138,7 +141,7 @@ typedef struct s_info
 ///////////////////////////////
 
 // tokenizer.c
-void	tokenizer(t_shell **shell, char *input);
+int	tokenizer(t_shell **shell, char *input);
 
 // 00_handle_spaces
 //  token_split_space.c
@@ -183,7 +186,7 @@ t_token	*find_last_token(t_token *token);
 t_token	*add_last_token(t_token **token, t_token *new);
 
 // initialize_structs.c
-// TODO DELETE v
+// TODO DELETE initialize_env (or cnahge it when )
 t_env	*initialize_env(void);
 t_token	*initialize_token(char *s, int type);
 t_shell	*initialize_shell(void);

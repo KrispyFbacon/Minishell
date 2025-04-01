@@ -6,11 +6,27 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:19:21 by yes               #+#    #+#             */
-/*   Updated: 2025/03/31 12:52:58 by yes              ###   ########.fr       */
+/*   Updated: 2025/04/01 17:26:44 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	ft_has_white_spaces(char *s)
+{
+	char	*white_space;
+	int		i;
+	
+	white_space = " \t\r\n\v\f";
+	i = 0;
+	while (s[i])
+	{
+		if (ft_strchr(white_space, s[i]))
+			return (1);
+		i++;
+	}
+	return (0);
+}
 
 char	*expand_variable(t_shell *shell, char **s_ptr, int *i, t_info *info)
 {
@@ -20,9 +36,23 @@ char	*expand_variable(t_shell *shell, char **s_ptr, int *i, t_info *info)
 	char	*s;
 
 	s = *s_ptr;
+	info->temp_flag = FALSE;
 	var_name = take_var_name(s, i);
 	info->env_end = (*i);
 	var_value = get_env_value(var_name, shell->env);
+	//TODO CHECK IF $ IS AMBIGUOUS change if not continues;
+	if ((info->type >= REDIR_IN && info->type <= HEREDOC) && info->mode == GENERAL
+		&& ft_has_white_spaces(var_value))
+	{
+		free(var_name);
+		printf("ptr_s: %p ---> %s\n", (*s_ptr), (*s_ptr));
+		printf("ptr_s: %p ---> %s\n", s, s);
+		printf("info.env_start: %i\n", info->env_start);
+		printf("info.env_start: %i\n", info->env_end);
+		info->temp_flag = TRUE;
+		//ft_printf("minishell: %s: ambiguous redirect\n", s);
+		return (NULL);
+	}
 	new_s = expand_var_in_str(s, var_value, *i, info);
 	free(var_name);
 	*i = info->env_start + ft_strlen(var_value);
@@ -48,7 +78,11 @@ int	expand_env(t_shell *shell, char **s_ptr, int *i, t_info *info)
 	else if (s[*i] == '?')
 		new_s = handle_question_mark(shell, s, i, info);
 	else
+	{
 		new_s = expand_variable(shell, &s, i, info);
+		if (!new_s)
+			return (TRUE);
+	}
 	*s_ptr = new_s;
 	return (TRUE);
 }
@@ -70,7 +104,10 @@ int	handle_expansions(t_shell *shell, char **s_ptr, int *i, t_info *info)
 				continue ;
 			else
 			{
+				if (info->temp_flag == TRUE)
+					return (TRUE);
 				free(s);
+				s = NULL;
 				*i = info->start;
 				return (TRUE);
 			}

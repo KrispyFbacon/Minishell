@@ -6,13 +6,13 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:12:25 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/31 12:53:37 by yes              ###   ########.fr       */
+/*   Updated: 2025/04/01 17:24:46 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	tokenizer(t_shell **shell, char *s)
+int	tokenizer(t_shell **shell, char *s)
 {
 	t_token	*token_list;
 	t_info	info;
@@ -27,34 +27,28 @@ void	tokenizer(t_shell **shell, char *s)
 	{
 		split_spaces(token_list, s, &i, &info);
 		if (handle_expansions(*shell, &s, &i, &info) == TRUE)
+		{
+			//CHECK IF $ IS AMBIGUOUS change if not continues;
+			if (info.temp_flag == TRUE)
+			{
+				printf("ptr_s: %p ---> %s\n", s, s);
+				printf("info.env_start: %i\n", info.env_start);
+				printf("info.env_start: %i\n", info.env_end);
+				free (s);
+				return (1);
+			}
 			continue ;
+		}
 		handle_quotes(&s, &i, &info);
 		temp = ft_substr(s, info.start, (info.end - info.start));
 		add_new_token(&token_list, temp, &info);
 		info.type_flag = FALSE;
 		free (temp);
-		temp = NULL;
 	}
 	free(s);
 	(*shell)->token_list = token_list;
 	print_tokens(token_list);
-}
-
-t_env	*initialize_env(void)
-{
-	t_env	*new;
-	t_env	*new2;
-
-	new = ft_calloc(1, sizeof(t_env));
-	new->name = "VAR";
-	new->value = "$VAR1";
-	new->next = NULL;
-	new2 = ft_calloc(1, sizeof(t_env));
-	new2->name = "VAR1";
-	new2->value = ">>";
-	new2->next = NULL;
-	new->next = new2;
-	return (new);
+	return (0);
 }
 
 // TODO DELETE v

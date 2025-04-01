@@ -6,7 +6,7 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:04:38 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/30 19:36:50 by yes              ###   ########.fr       */
+/*   Updated: 2025/04/01 17:09:36 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ int	main(void)
 			break ;
 		}
 		add_history(input);
-		tokenizer(&shell, ft_strdup(input));
+		if (tokenizer(&shell, ft_strdup(input)) == 1)
+			printf("INPUT: %p ---> %s\n", (input), input);
 		free_tokens(&shell->token_list);
 		free(input);
 	}

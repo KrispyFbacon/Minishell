@@ -6,7 +6,7 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 14:03:57 by frbranda          #+#    #+#             */
-/*   Updated: 2025/03/28 22:07:30 by yes              ###   ########.fr       */
+/*   Updated: 2025/04/01 14:19:17 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void	free_env(t_env **env)
 
 	while (*env != NULL)
 	{
+		free((*env)->name);
+		free((*env)->value);
 		temp = (*env)->next;
 		free(*env);
 		*env = temp;

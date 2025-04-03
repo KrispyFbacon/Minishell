@@ -6,52 +6,65 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:12:25 by frbranda          #+#    #+#             */
-/*   Updated: 2025/04/01 17:24:46 by yes              ###   ########.fr       */
+/*   Updated: 2025/04/03 21:00:13 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	tokenizer(t_shell **shell, char *s)
+// TODO move to inizialize_structs
+void	inizialize_info(t_info	*info)
+{
+	info->start = 0;
+	info->end = 0;
+	info->env_start = 0;
+	info->env_end = 0;
+	info->type = CMD;
+	info->type_flag = FALSE;
+	info->mode = GENERAL;
+	info->error_flag = FALSE;
+}
+
+//TODO DELETE printf and (*shell)->exit_status = 0;
+
+void	tokenizer(t_shell **shell, char *s)
 {
 	t_token	*token_list;
 	t_info	info;
-	char	*temp;
 	int		i;
 
 	token_list = NULL;
-	info.mode = GENERAL;
-	info.type_flag = FALSE;
+	inizialize_info(&info);
 	i = 0;
 	while (s[i])
 	{
 		split_spaces(token_list, s, &i, &info);
 		if (handle_expansions(*shell, &s, &i, &info) == TRUE)
-		{
-			//CHECK IF $ IS AMBIGUOUS change if not continues;
-			if (info.temp_flag == TRUE)
-			{
-				printf("ptr_s: %p ---> %s\n", s, s);
-				printf("info.env_start: %i\n", info.env_start);
-				printf("info.env_start: %i\n", info.env_end);
-				free (s);
-				return (1);
-			}
 			continue ;
+		if (info.error_flag == TRUE)
+		{
+			free_tokens(&token_list);
+			return ;
 		}
 		handle_quotes(&s, &i, &info);
-		temp = ft_substr(s, info.start, (info.end - info.start));
-		add_new_token(&token_list, temp, &info);
+		add_new_token(&token_list, s, &info);
 		info.type_flag = FALSE;
-		free (temp);
 	}
 	free(s);
 	(*shell)->token_list = token_list;
+	(*shell)->exit_status = 0;
 	print_tokens(token_list);
-	return (0);
 }
 
+
 // TODO DELETE v
+
+/* printf ("AFTER SPLIT_SPACES-------\n");
+		printf ("i: %i\n", i);
+		printf("START: %i\n", info.start);
+		printf("END: %i\n", info.end);
+		printf("ENV_START: %i\n", info.env_start);
+		printf("ENV_END: %i\n", info.env_end); */
 
 /*
 printf("Before expansion: %p -> {%s}\n", s, s);
@@ -66,10 +79,3 @@ printf("S: %p -> {%s}\n", s, s);
 		printf("Before expansion: %p -> {%s}\n", input, input);
 		printf("input after: %p -> {%s}\n", input, input);
 */
-
-/* ft_printf("DOING A LOOP\n");
-	ft_printf("input[i]: %c\n", input[*i]);
-	ft_printf("i       : %i\n", *i);
-	ft_printf("start   : %i\n", info.start);
-	ft_printf("mode    : %i\n", info.mode);
-	ft_printf("------------\n"); */

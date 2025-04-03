@@ -6,7 +6,7 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 13:48:28 by frbranda          #+#    #+#             */
-/*   Updated: 2025/04/01 14:22:44 by yes              ###   ########.fr       */
+/*   Updated: 2025/04/03 20:45:17 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,24 @@ t_env	*initialize_env(void)
 {
 	t_env	*new;
 	t_env	*new2;
+	t_env	*new3;
 
 	new = ft_calloc(1, sizeof(t_env));
 	new->name = ft_strdup("VAR");
-	new->value = ft_strdup("$VAR1");
+	new->value = ft_strdup("s -");
 	new->next = NULL;
 	new2 = ft_calloc(1, sizeof(t_env));
 	new2->name = ft_strdup("VAR1");
-	new2->value = ft_strdup("s -");
+	new2->value = ft_strdup("echo");
 	new2->next = NULL;
 	new->next = new2;
+	new3 = ft_calloc(1, sizeof(t_env));
+	new3->name = ft_strdup("REDIR");
+	new3->value = ft_strdup(">>");
+	new3->next = NULL;
+	new2->next = new3;
 	return (new);
 }
-
 // inicialize shell
 t_shell	*initialize_shell(void)
 {

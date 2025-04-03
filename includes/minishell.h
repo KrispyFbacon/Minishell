@@ -6,7 +6,7 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:12:31 by frbranda          #+#    #+#             */
-/*   Updated: 2025/04/01 17:06:46 by yes              ###   ########.fr       */
+/*   Updated: 2025/04/03 21:02:03 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ typedef struct s_info
 	int	type;
 	int	type_flag;
 	int	mode;
-	int	temp_flag;
+	int	error_flag;
 }	t_info;
 
 typedef struct s_shell
@@ -140,8 +140,12 @@ typedef struct s_shell
 //          PARSING          //
 ///////////////////////////////
 
+//TODO ORGANIZE THIS v
+void	inizialize_info(t_info	*info);
+int		ft_has_white_spaces(char *s);
+
 // tokenizer.c
-int	tokenizer(t_shell **shell, char *input);
+void	tokenizer(t_shell **shell, char *s);
 
 // 00_handle_spaces
 //  token_split_space.c

@@ -6,12 +6,13 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:19:21 by yes               #+#    #+#             */
-/*   Updated: 2025/04/01 17:26:44 by yes              ###   ########.fr       */
+/*   Updated: 2025/04/03 20:55:19 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// TODO PUT IN LIBFT?
 int	ft_has_white_spaces(char *s)
 {
 	char	*white_space;
@@ -28,32 +29,46 @@ int	ft_has_white_spaces(char *s)
 	return (0);
 }
 
+int	check_if_var_is_alone(char	*s, int i, t_info *info)
+{
+	int	before;
+	int	after;
+
+	before = FALSE;
+	after = FALSE;
+	if (info->env_start > 0 && (!ft_strchr(WHITE_SPACES, s[info->env_start - 1]))
+		&& (!ft_strchr(T_REDIR, s[info->env_start - 1])))
+		before = TRUE;
+	if ((s[i]) && !ft_strchr(WHITE_SPACES, s[i]))
+		after = TRUE;
+	if (before == TRUE || after == TRUE)
+		return (TRUE);
+	return (FALSE);
+}
+
 char	*expand_variable(t_shell *shell, char **s_ptr, int *i, t_info *info)
 {
 	char	*var_name;
 	char	*var_value;
 	char	*new_s;
-	char	*s;
+	int		before_after;
 
-	s = *s_ptr;
-	info->temp_flag = FALSE;
-	var_name = take_var_name(s, i);
+	var_name = take_var_name(*s_ptr, i);
 	info->env_end = (*i);
 	var_value = get_env_value(var_name, shell->env);
-	//TODO CHECK IF $ IS AMBIGUOUS change if not continues;
-	if ((info->type >= REDIR_IN && info->type <= HEREDOC) && info->mode == GENERAL
-		&& ft_has_white_spaces(var_value))
+	before_after = check_if_var_is_alone(*s_ptr, *i, info);
+	if (info->mode == GENERAL
+		&& (info->type >= REDIR_IN && info->type <= HEREDOC)
+		&& (ft_has_white_spaces(var_value)
+		|| ((!var_value || var_value[0] == '\0') && !before_after)))
 	{
+		shell->exit_status = 1;
+		info->error_flag = TRUE;
+		ft_printf("minishell: $%s: ambiguous redirect\n", var_name);
 		free(var_name);
-		printf("ptr_s: %p ---> %s\n", (*s_ptr), (*s_ptr));
-		printf("ptr_s: %p ---> %s\n", s, s);
-		printf("info.env_start: %i\n", info->env_start);
-		printf("info.env_start: %i\n", info->env_end);
-		info->temp_flag = TRUE;
-		//ft_printf("minishell: %s: ambiguous redirect\n", s);
 		return (NULL);
 	}
-	new_s = expand_var_in_str(s, var_value, *i, info);
+	new_s = expand_var_in_str(*s_ptr, var_value, *i, info);
 	free(var_name);
 	*i = info->env_start + ft_strlen(var_value);
 	return (new_s);
@@ -104,10 +119,9 @@ int	handle_expansions(t_shell *shell, char **s_ptr, int *i, t_info *info)
 				continue ;
 			else
 			{
-				if (info->temp_flag == TRUE)
-					return (TRUE);
 				free(s);
-				s = NULL;
+				if (info->error_flag == TRUE)
+					return (FALSE);
 				*i = info->start;
 				return (TRUE);
 			}
@@ -117,20 +131,3 @@ int	handle_expansions(t_shell *shell, char **s_ptr, int *i, t_info *info)
 	}
 	return (FALSE);
 }
-// TODO DELETE v
-
-/* printf("HERE: {%s}\n", *s_ptr);
-			printf("i: %i\n", i);
-			printf("ptr_s[i]: %c\n", (*s_ptr)[i]);
-			printf("start: %i\n", info->start);
-			printf ("ptr_s[start]: %c\n", (*s_ptr)[info->start]);
-			printf("end: %i\n", info->end);
-			printf ("ptr_s[end]: %c\n", (*s_ptr)[info->end]);
-			expand_env(shell, &s, &i, info);
-			printf ("HERE: {%s}\n", *s_ptr);
-			printf ("i: %i\n", i);
-			printf ("ptr_s[i]: %c\n", (*s_ptr)[i]);
-			printf("start: %i\n", info->start);
-			printf ("ptr_s[start]: %c\n", (*s_ptr)[info->start]);
-			printf("end: %i\n", info->end);
-			printf ("ptr_s[end]: %c\n", (*s_ptr)[info->end]); */

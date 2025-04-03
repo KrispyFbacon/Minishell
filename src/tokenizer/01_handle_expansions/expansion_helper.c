@@ -6,7 +6,7 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:24:40 by yes               #+#    #+#             */
-/*   Updated: 2025/04/01 16:45:17 by yes              ###   ########.fr       */
+/*   Updated: 2025/04/03 18:23:52 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ char	*take_var_name(char *s, int *i)
 		return (ft_strdup("?"));
 	}
 	while (s[*i] && s[*i] != '$' && !(ft_strchr(QUOTES, s[*i]))
-		&& !(ft_strchr(WHITE_SPACES, s[*i])))
+		&& !(ft_strchr(WHITE_SPACES, s[*i]))
+		&& !(ft_strchr(OPERATOR, s[*i])))
 	{
 		(*i)++;
 		len++;

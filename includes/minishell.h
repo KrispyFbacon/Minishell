@@ -6,7 +6,7 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 17:12:31 by frbranda          #+#    #+#             */
-/*   Updated: 2025/04/03 21:02:03 by yes              ###   ########.fr       */
+/*   Updated: 2025/04/04 13:21:33 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,6 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../libft/libft.h"
-
-//# include "free.h"
-//# include "tokens.h"
 
 /*=============================================================================#
 #                               DEFINES                                        #
@@ -131,7 +128,6 @@ typedef struct s_shell
 	int		exit_status;
 }	t_shell;
 
-
 /*=============================================================================#
 #                               GENERAL                                        #
 #=============================================================================*/
@@ -139,10 +135,6 @@ typedef struct s_shell
 ///////////////////////////////
 //          PARSING          //
 ///////////////////////////////
-
-//TODO ORGANIZE THIS v
-void	inizialize_info(t_info	*info);
-int		ft_has_white_spaces(char *s);
 
 // tokenizer.c
 void	tokenizer(t_shell **shell, char *s);
@@ -171,6 +163,7 @@ char	*handle_question_mark(t_shell *shell, char *s, int *i, t_info *info);
 //  expansion_helper.c
 char	*take_var_name(char *s, int *i);
 char	*get_env_value(char *var_name, t_env *env_list);
+int		check_if_var_is_alone(char	*s, int i, t_info *info);
 char	*expand_var_in_str(char *s, char *var_value, int i, t_info *info);
 
 // 02_handle_quotes
@@ -190,9 +183,10 @@ t_token	*find_last_token(t_token *token);
 t_token	*add_last_token(t_token **token, t_token *new);
 
 // initialize_structs.c
-// TODO DELETE initialize_env (or cnahge it when )
-t_env	*initialize_env(void);
+// TODO DELETE initialize_env (or change it when exists)
+void	inizialize_info(t_info	*info);
 t_token	*initialize_token(char *s, int type);
+//t_env	*initialize_env(void);
 t_shell	*initialize_shell(void);
 
 ///////////////////////////////

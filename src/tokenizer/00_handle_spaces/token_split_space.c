@@ -6,7 +6,7 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 16:23:25 by frbranda          #+#    #+#             */
-/*   Updated: 2025/04/03 20:58:45 by yes              ###   ########.fr       */
+/*   Updated: 2025/04/04 13:01:44 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,10 @@ void	token_word_handler(char *s, int *i, t_info *info)
 			break ;
 		else if (info->mode == GENERAL && ft_strchr(OPERATOR, s[*i]))
 		{
-			if ((info->type_flag == TRUE) && !(info->type >= REDIR_IN && info->type <= HEREDOC))
+			if ((info->type_flag == TRUE)
+				&& !(info->type >= REDIR_IN && info->type <= HEREDOC))
 				(*i)++;
-			else	
+			else
 				break ;
 		}
 		else

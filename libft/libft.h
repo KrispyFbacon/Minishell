@@ -87,6 +87,7 @@ void	ft_putstr_fd(char *s, int fd);
 #                               CHECKERS                                       #
 #=============================================================================*/
 
+int		ft_has_white_spaces(char *s);
 int		ft_isalnum(int c);
 int		ft_isalpha(int c);
 int		ft_isascii(int c);

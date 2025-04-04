@@ -6,11 +6,23 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 13:48:28 by frbranda          #+#    #+#             */
-/*   Updated: 2025/04/03 20:45:17 by yes              ###   ########.fr       */
+/*   Updated: 2025/04/04 13:18:37 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	inizialize_info(t_info	*info)
+{
+	info->start = 0;
+	info->end = 0;
+	info->env_start = 0;
+	info->env_end = 0;
+	info->type = CMD;
+	info->type_flag = FALSE;
+	info->mode = GENERAL;
+	info->error_flag = FALSE;
+}
 
 t_token	*initialize_token(char *s, int type)
 {
@@ -26,7 +38,7 @@ t_token	*initialize_token(char *s, int type)
 }
 
 // TODO DELETE LATER WHEN ENV IS INITIALIZE
-t_env	*initialize_env(void)
+/* t_env	*initialize_env(void)
 {
 	t_env	*new;
 	t_env	*new2;
@@ -47,7 +59,7 @@ t_env	*initialize_env(void)
 	new3->next = NULL;
 	new2->next = new3;
 	return (new);
-}
+} */
 // inicialize shell
 t_shell	*initialize_shell(void)
 {

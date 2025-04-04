@@ -30,6 +30,7 @@ SRCS =	ft_bzero.c
 SRCS +=	ft_atoi.c
 SRCS += ft_atol.c
 SRCS +=	ft_calloc.c
+SRCS += ft_has_white_spaces.c
 SRCS +=	ft_isalnum.c
 SRCS +=	ft_isalpha.c
 SRCS +=	ft_isascii.c

@@ -6,45 +6,11 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:19:21 by yes               #+#    #+#             */
-/*   Updated: 2025/04/03 20:55:19 by yes              ###   ########.fr       */
+/*   Updated: 2025/04/04 13:20:53 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// TODO PUT IN LIBFT?
-int	ft_has_white_spaces(char *s)
-{
-	char	*white_space;
-	int		i;
-	
-	white_space = " \t\r\n\v\f";
-	i = 0;
-	while (s[i])
-	{
-		if (ft_strchr(white_space, s[i]))
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-int	check_if_var_is_alone(char	*s, int i, t_info *info)
-{
-	int	before;
-	int	after;
-
-	before = FALSE;
-	after = FALSE;
-	if (info->env_start > 0 && (!ft_strchr(WHITE_SPACES, s[info->env_start - 1]))
-		&& (!ft_strchr(T_REDIR, s[info->env_start - 1])))
-		before = TRUE;
-	if ((s[i]) && !ft_strchr(WHITE_SPACES, s[i]))
-		after = TRUE;
-	if (before == TRUE || after == TRUE)
-		return (TRUE);
-	return (FALSE);
-}
 
 char	*expand_variable(t_shell *shell, char **s_ptr, int *i, t_info *info)
 {
@@ -60,7 +26,7 @@ char	*expand_variable(t_shell *shell, char **s_ptr, int *i, t_info *info)
 	if (info->mode == GENERAL
 		&& (info->type >= REDIR_IN && info->type <= HEREDOC)
 		&& (ft_has_white_spaces(var_value)
-		|| ((!var_value || var_value[0] == '\0') && !before_after)))
+			|| ((!var_value || var_value[0] == '\0') && !before_after)))
 	{
 		shell->exit_status = 1;
 		info->error_flag = TRUE;
@@ -115,11 +81,9 @@ int	handle_expansions(t_shell *shell, char **s_ptr, int *i, t_info *info)
 			quote_changer(s, i, info);
 		else if (s[*i] == '$' && info->mode != SINGLE_QUO)
 		{
-			if (expand_env(shell, s_ptr, i, info) == FALSE)
-				continue ;
-			else
+			if (expand_env(shell, s_ptr, i, info) == TRUE)
 			{
-				free(s);
+				free (s);
 				if (info->error_flag == TRUE)
 					return (FALSE);
 				*i = info->start;

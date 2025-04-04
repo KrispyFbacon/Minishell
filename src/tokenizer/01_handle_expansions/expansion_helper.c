@@ -6,7 +6,7 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 18:24:40 by yes               #+#    #+#             */
-/*   Updated: 2025/04/03 18:23:52 by yes              ###   ########.fr       */
+/*   Updated: 2025/04/04 13:21:03 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,24 @@ char	*get_env_value(char *var_name, t_env *env_list)
 		temp = temp->next;
 	}
 	return ("");
+}
+
+int	check_if_var_is_alone(char	*s, int i, t_info *info)
+{
+	int	before;
+	int	after;
+
+	before = FALSE;
+	after = FALSE;
+	if (info->env_start > 0
+		&& (!ft_strchr(WHITE_SPACES, s[info->env_start - 1]))
+		&& (!ft_strchr(T_REDIR, s[info->env_start - 1])))
+		before = TRUE;
+	if ((s[i]) && !ft_strchr(WHITE_SPACES, s[i]))
+		after = TRUE;
+	if (before == TRUE || after == TRUE)
+		return (TRUE);
+	return (FALSE);
 }
 
 char	*expand_var_in_str(char *s, char *var_value, int i, t_info *info)

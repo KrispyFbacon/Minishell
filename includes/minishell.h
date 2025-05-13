@@ -130,7 +130,7 @@ typedef struct s_shell
 	t_token	*token_list;
 	t_token	*head;
 	t_info	info;
-	t_node	*tree;
+	t_node	*process;
 	char	tempfile_dir[BUFFER_MAX_SIZE];
 	int		pid;
 	char	**envp;

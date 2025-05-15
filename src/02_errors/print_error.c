@@ -6,7 +6,7 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 16:14:30 by mmiguelo          #+#    #+#             */
-/*   Updated: 2025/04/09 16:53:28 by yes              ###   ########.fr       */
+/*   Updated: 2025/05/15 15:09:29 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	print_msg_error(char *error)
 	status_code = 0;
 	if (errno)
 		perror(error);
+	shell->exit_status = 1;
 /* 	else
 		status_code = ft_print_buffered_error(error); */
 	return (status_code);

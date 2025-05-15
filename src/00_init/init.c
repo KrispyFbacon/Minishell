@@ -90,6 +90,7 @@ void	ft_init(t_shell	*shell, char **envp)
 		exit_init(shell, "shlvl");
 	ft_bzero(shell->tempfile_dir, BUFFER_MAX_SIZE);
 	ft_strlcat(shell->tempfile_dir, TEMPFILE_DIR, BUFFER_MAX_SIZE);
+	shell->is_child = FALSE;
 	shell->cmd = NULL;
 	shell->old_pwd = NULL;
 	shell->exit_status = 0;

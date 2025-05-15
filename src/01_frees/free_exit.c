@@ -6,7 +6,7 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:36:31 by yes               #+#    #+#             */
-/*   Updated: 2025/05/09 15:30:43 by yes              ###   ########.fr       */
+/*   Updated: 2025/05/15 16:21:39 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,12 @@ void	ft_kill(t_shell **shell, int status)
 	if ((*shell)->args)
 		free_char_pp_ref(&(*shell)->args);
 	if ((*shell)->token_list)
-		free_tokens(&(*shell)->token_list);
+	{
+		if ((*shell)->is_child == TRUE)
+			free_tokens_child(&(*shell)->token_list);
+		else
+			free_tokens(&(*shell)->token_list);
+	}
 	if ((*shell)->envp)
 		free_matriz((*shell)->envp, ft_arrlen((*shell)->envp));
 	if ((*shell)->cmd)

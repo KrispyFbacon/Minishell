@@ -133,6 +133,7 @@ typedef struct s_shell
 	t_node	*process;
 	char	tempfile_dir[BUFFER_MAX_SIZE];
 	int		pid;
+	int		is_child;
 	char	**envp;
 	char	**cmd;
 	char	pwd[1024];

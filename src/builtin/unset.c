@@ -6,7 +6,7 @@
 /*   By: yes <yes@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 11:21:06 by mmiguelo          #+#    #+#             */
-/*   Updated: 2025/04/07 18:48:05 by yes              ###   ########.fr       */
+/*   Updated: 2025/05/15 15:07:55 by yes              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	ft_unset(char **args, t_shell *shell)
 				ft_strdup(":invalid option\n"));
 		if (!error)
 			return (errno);
-		print_msg_error(error);
+		print_msg_error(error, shell);
 		free(error);
 	}
 	while (args[++i])

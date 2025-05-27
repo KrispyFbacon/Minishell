@@ -6,7 +6,7 @@
 /*   By: mmiguelo <mmiguelo@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 11:20:13 by mmiguelo          #+#    #+#             */
-/*   Updated: 2025/05/27 13:04:59 by mmiguelo         ###   ########.fr       */
+/*   Updated: 2025/05/27 23:27:02 by mmiguelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ int	ft_pwd(char **args, t_shell *shell)
 		return (1);
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
-		ft_printf("%s\n", cwd);
+		ft_printf_fd(1, "%s\n", cwd);
 		return (0);
 	}
 	else
-		return (ft_printf("pwd: error retrieving current directory\n"), 1);
+		return (ft_printf_fd(2, "pwd: error retrieving current directory\n"), 1);
 }

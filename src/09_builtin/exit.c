@@ -3,14 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frbranda <frbranda@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmiguelo <mmiguelo@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 11:20:01 by mmiguelo          #+#    #+#             */
-/*   Updated: 2025/05/22 18:23:04 by frbranda         ###   ########.fr       */
+/*   Updated: 2025/05/27 23:39:12 by mmiguelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	check_exit_code_size(char *arg)
+{
+	long long	exit_code;
+	char		*code;
+	int			size;
+	int			i;
+
+	i = 0;
+	size = ft_strlen(arg);
+	if (arg[i] == '+')
+		size--;
+	exit_code = ft_atoll(arg);
+	code = ft_itol(exit_code);
+	if (size > 20 || (size_t)size != ft_strlen(code))
+		return (1);
+	else
+	{
+		if (exit_code < LLONG_MIN || exit_code > LLONG_MAX)
+			return (1);
+		else
+			return (0);
+	}
+}
 
 /**
  * @brief Exits the shell with a specified status or prints an error message.
@@ -37,17 +61,23 @@ int	ft_exit(char **args, t_shell *shell)
 	{
 		if (!ft_isnum(args[1]))
 		{
-			ft_printf(NO_NUMERIC, args[1]);
+			ft_printf_fd(2, NO_NUMERIC, args[1]);
 			ft_kill(&shell, 2);
 		}
 		else
-			return (ft_printf("minishell: exit: too many arguments\n"), 1);
+			return (ft_printf_fd(2, "minishell: exit: too many\
+				arguments\n"), 1);
 	}
 	if (ft_arrlen(args) == 2)
 	{
 		if (!ft_isnum(args[1]))
 		{
-			ft_printf(NO_NUMERIC, args[1]);
+			ft_printf_fd(2, NO_NUMERIC, args[1]);
+			ft_kill(&shell, 2);
+		}
+		else if (check_exit_code_size(args[1]) == 1)
+		{
+			ft_printf_fd(2, NO_NUMERIC, args[1]);
 			ft_kill(&shell, 2);
 		}
 		else

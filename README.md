@@ -345,7 +345,7 @@ Minishell/
 ## 👥 Authors
 
 [![mmiguelo](https://img.shields.io/badge/mmiguelo-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/mmiguelo)
-[![KrispyFbacon](https://img.shields.io/badge/frbranda-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/KrispyFbacon)
+[![KrispyFbacon](https://img.shields.io/badge/KrispyFbacon-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/KrispyFbacon)
 
 ---
 
